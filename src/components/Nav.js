@@ -26,19 +26,21 @@ class Nav extends Component {
     }
 
     render() {
-        const { classes, uid } = this.props;
+        const { classes, uid, app } = this.props;
         return (
             <div className={classes.root}>
                 <AppBar color="transparent" elevation={0} position="static">
-                    <Toolbar style={{ paddingTop: 30, width: "100%" }} >
+                    <Toolbar style={{ paddingTop: 16, width: "100%" }} >
                         <Grid container alignItems="center">
                             <div style={{ cursor: "pointer", display: 'flex', alignItems: 'center' }} onClick={() => window.location.href = `${uid ? "/dashboard" : "/"}`}>
                                 <Image width={50} height={50} src={config.COMPANY_LOGO_URL} />
-                                <Typography variant="h6" display="inline" style={{ fontWeight: 100, marginLeft: 8 }}>{config.DISPLAY_COMPANY_NAME}</Typography>
+                                <Typography variant="h6" display="inline" className='main-text'>{config.DISPLAY_COMPANY_NAME}</Typography>
                             </div>
-                            <Button style={{ marginLeft: 'auto' }} component="a" href="/blog">
-                                Blog
-                            </Button>
+                            {app &&
+                                <Button className='action-button' component="a" href="/app" style={{marginLeft: 'auto'}}>
+                                    Enter App
+                                </Button>
+                            }
                         </Grid>
                     </Toolbar>
                 </AppBar>

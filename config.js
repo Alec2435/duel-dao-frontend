@@ -1,25 +1,24 @@
 module.exports = {
-    PAGE_TITLE: "Pave | Build fast",
-    COMPANY_NAME: "Pave",
-    DISPLAY_COMPANY_NAME: "Pave.so",
-    COMPANY_URL: "https://pave.so",
+    PAGE_TITLE: "Duel Dao",
+    COMPANY_NAME: "Duel Dao",
+    DISPLAY_COMPANY_NAME: "Duel Dao",
+    COMPANY_URL: "https://dueldao.xyz",
     COMPANY_LOGO_URL: "/logo-dark.svg",
-    TAGLINE: "The fastest way to get coding",
+    TAGLINE: "DAO vs DAO gaming on-chain",
     SUPPORT_EMAIL: "nikita.jerschow@gmail.com",
     TWITTER_URL: 'https://twitter.com/nikita_jerschow',
-    BUY_ME_A_COFFEE_URL: "https://www.buymeacoffee.com/nikitajerschow",
     META: {
-        TITLE: "Launching startups in a single terminal command",
-        DESCRIPTION: "Use Pave to set up all the accounts you need to run a startup, completely automatically. Get a landing page with Stripe, auth, database, and hosting built in.",
+        TITLE: "DAO vs DAO gaming on-chain",
+        DESCRIPTION: "",
         IMAGE: ""
     },
     PALETTE: {
-        BACKGROUND_PRIMARY: "#F5F7FF",
+        BACKGROUND_PRIMARY: "#101629",
         BACKGROUND_SECONDARY: "#FFFFFF",
-        TEXT_PRIMARY: "#111111",
-        TEXT_SECONDARY: "#6D6D6D",
-        COLOR_PRIMARY: "#111111",
-        COLOR_SECONDARY: "#79d69e",
-        BORDER_COLOR: "#AAAAAA"
+        TEXT_PRIMARY: "#FFFFFF",
+        TEXT_SECONDARY: "#FFFFFFAA",
+        COLOR_PRIMARY: "#0089FF",
+        COLOR_SECONDARY: "#00AAFF",
+        BORDER_COLOR: "#212838"
     }
 }

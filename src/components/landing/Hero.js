@@ -2,16 +2,20 @@ import { Component } from 'react';
 import {
     withStyles, withTheme
 } from '@material-ui/core/styles';
-import { Grid, Typography, Container } from '@material-ui/core';
+import { Grid, Typography, Container, Button, Link } from '@material-ui/core';
 import WaitlistField from '../subComponents/WaitlistField';
 import Nav from '../Nav';
 import config from '../../../config';
+import { ArrowRight, ArrowRightAlt } from '@material-ui/icons';
 
 const styles = theme => ({
     root: {
         background: config.PALETTE.BACKGROUND_PRIMARY,
         // background: 'linear-gradient(66deg, #C82090, #D060AB)',
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
         [theme.breakpoints.down('sm')]: {
             height: 'auto'
         }
@@ -45,7 +49,7 @@ const styles = theme => ({
         order: 0,
         paddingTop: 40,
         paddingBottom: 40,
-        textAlign: 'left',
+        textAlign: 'center',
         [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
             order: 1
@@ -72,6 +76,16 @@ const styles = theme => ({
         height: 50,
         color: "#F1EEEE",
         fontWeight: 100
+    },
+    backdrop: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        background: "conic-gradient(from 180deg at 50% 50%, #2400FF 0deg, #0087FF 82.5deg, rgba(255, 29, 122, 0.760597) 148.93deg, #BBFF11 205.61deg, rgba(255, 83, 53, 0.600302) 267.32deg, #691EFF 360deg)",
+        filter: 'blur(95px)'
     }
 })
 
@@ -82,32 +96,39 @@ class Hero extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
-                <Container maxWidth="lg" style={{ height: '100%', zIndex: -2 }}>
-                    <Nav auth />
+            <div className={classes.root} >
+                <Nav auth app />
+                <Container maxWidth="md" style={{ height: '100%', zIndex: 1 }}>
                     <Grid container spacing={3} style={{ height: '100%', paddingTop: '7vw', paddingBottom: '2vw' }} justifyContent="center" alignItems="center" alignContent="center">
-                        <Grid item xs={12} sm={6} className={classes.heroText}>
-                            <Typography variant="h2" className={classes.heroPrimary} paragraph>
-                                Save time by automating the fundamentals so you can build what matters
+                        <Grid item xs={12} className={classes.heroText} style={{ zIndex: 8 }}>
+                            <Typography variant="h4" className='main-text' paragraph>
+                                Bettable DAO games on-chain
                             </Typography>
-                            <Typography variant="h6" className={classes.heroSecondary} paragraph>
-                                Our scraper sets you up with every account you need to launch your startup, so you can focus on building.
+                            <Typography variant="body1" className='detail-text' paragraph>
+                                It’s us vs them.
                             </Typography>
-                            {/* <Button onClick={() => window.location.href = "/signup"} variant="contained" className={classes.cta} >
-                                <span style={{ fontWeight: 600 }}>Start building</span>
-                            </Button> */}
-
-                            {/* NOT LIVE YET (Collect emails with waitlist) */}
-                            <WaitlistField />
+                            <Button onClick={() => window.location.href = "/signup"} variant="contained" className='action-button' >
+                                Enter App
+                            </Button>
 
                         </Grid>
-                        <Grid item xs={12} sm={6} className={classes.heroImage} style={{ textAlign: "center" }}>
-                            <video src="/LaunchVideo.mp4" autoPlay muted controls loop style={{ maxWidth: '100%', objectFit: 'contain', boxShadow: '0 0 12px rgb(0 0 0 /20%)', borderRadius: 8, transform: 'rotate(2deg)' }} />
-                            {/* <img src={"/assets/img/plane.png"} style={{ maxWidth: '80%', objectFit: 'cover', filter: 'invert', position: 'absolute' }} /> */}
+                        <Grid item xs={12} className={classes.heroImage} style={{ textAlign: "center", position: 'relative', display: 'flex', justifyContent: 'center' }}>
+                            <div className={classes.backdrop}></div>
+                            <div style={{ width: '80%', height: 400, zIndex: 4, display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ flex: 1, borderRadius: 8, background: config.PALETTE.BACKGROUND_PRIMARY, boxShadow: '0 0 16px rgb(0 155 255 / 25%)' }}>placeholder</div>
+                                <Link href="#">
+                                    <div className='horiz' style={{ color: "#FFF", justifyContent: 'flex-end' }}>
+
+
+                                        <Typography variant='body2' style={{ fontSize: 12, paddingTop: 2 }} ><i>check out the white paper</i></Typography>
+                                        <ArrowRight fill={"#FFF"} style={{ marginLeft: 4, height: 16, width: 16 }} />
+                                    </div>
+                                </Link>
+                            </div>
+                            {/* <video src="/LaunchVideo.mp4" autoPlay muted controls loop style={{ maxWidth: '80%', objectFit: 'contain', boxShadow: '0 0 12px rgb(0 0 0 /20%)', borderRadius: 8 }} /> */}
                         </Grid>
                     </Grid>
                 </Container>
-                <div className={classes.after} />
             </div>
         );
     }

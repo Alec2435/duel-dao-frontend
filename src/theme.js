@@ -4,6 +4,7 @@ import config from '../config';
 // Create a theme instance.
 const theme = createMuiTheme({
   palette: {
+    mode: 'dark',
     text: {
       primary: config.PALETTE.TEXT_PRIMARY
     },

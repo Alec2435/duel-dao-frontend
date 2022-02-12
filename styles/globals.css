@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-text.min.css");
 
-
-html,
-body {
+html, body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -16,4 +14,235 @@ a {
 
 * {
   box-sizing: border-box;
+  --primary-color: #0066ff;
+  --main-bg-color: #111419;
+  --blue-bg-color: #122539;
+  --alt-bg-color: #F5F7FF;
+}
+
+.main-text {
+  font-family: 'Plus Jakarta Text', 'Roboto', Arial, Helvetica, sans-serif !important;
+  font-weight: 800 !important;
+}
+
+.detail-text {
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 400 !important;
+  opacity: 85%;
+}
+
+.main-text-inverted {
+  font-family: 'Plus Jakarta Text', 'Roboto', Arial, Helvetica, sans-serif !important;
+  font-weight: 800 !important;
+  color: #FFF !important;
+}
+
+.detail-text-inverted {
+  font-family: 'Quicksand' !important;
+  font-weight: 400 !important;
+  color: #FFF !important;
+  opacity: 50%;
+}
+
+.action-button {
+  background-color: var(--primary-color) !important;
+  color: var(--alt-bg-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease-out !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+  font-size: 1em;
+  font-weight: 500 !important;
+  padding: 8px 24px !important;
+}
+
+.action-button:hover {
+  cursor: pointer;
+  background-color: transparent !important;
+  color: var(--alt-bg-color) !important;
+}
+
+.action-button.disabled {
+  background-color: #E8E8E8 !important;
+  color: #222222 !important;
+  border: 1px solid transparent !important;
+}
+
+.secondary-button {
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease-out !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+  font-size: 1em;
+  font-weight: 500 !important;
+  padding: 8px 24px !important;
+}
+
+.secondary-button:hover {
+  background-color: var(--blue-bg-color) !important;
+}
+
+.tooltip-container {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tooltip-arrow {
+  transition: all 0.2s ease-in-out;
+}
+
+.tooltip-box {
+  transition: all 0.2s ease-in-out;
+}
+
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0);
+  }
+
+  40% {
+    -webkit-transform: translateY(30px);
+  }
+
+  60% {
+    -webkit-transform: translateY(15px);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(30px);
+  }
+
+  60% {
+    transform: translateY(15px);
+  }
+}
+
+.bounce {
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+}
+
+.notched-outline {
+  border-radius: 8px !important;
+}
+
+.input {
+  border-radius: 8px;
+  padding: 4px 8px !important;
+}
+
+@keyframes yourAnimation {
+  0.0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100.0% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+
+  /* 100.0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  } */
+}
+
+.custom-tooltip {
+  border: 1px solid #E8E8E8;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 20%);
+  background-color: #FFF;
+  padding: 10px 20px;
+  opacity: 1;
+}
+
+table {
+  /*
+  border: 1px solid black;
+  border-collapse: collapse; */
+  table-layout: auto;
+  width: 100%;
+}
+
+/* 
+td+td {
+  border-left: 1px solid black;
+}
+
+tr {
+  display: flex;
+  align-items: stretch;
+}
+
+td:last-child {
+  flex: 1;
+  display: inline-block;
+}
+
+th:last-child {
+  flex: 1;
+  display: inline-block;
+} */
+
+
+.MuiOutlinedInput-notchedOutline {
+  border: 1px solid #394050 !important;
+  border-radius: 8px !important;
+}
+
+.MuiOutlinedInput-input {
+  height: 17px !important;
+  color: #FFF !important;
+}
+
+.MuiOutlinedInput-input::placeholder {
+  color: #FFF !important;
+}
+
+
+.horiz {
+  display: flex;
+  align-items: center;
+}
+
+.paragraph {
+  margin-bottom: 12px;
+}
+
+.defi-backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: conic-gradient(from 230.29deg at 51.63% 52.16%, #2400ff 0deg, #0087ff 67.5deg, #ff1d7a 198.75deg, #f5381b 251.25deg, #ff5335 301.88deg, #691eff 360deg);
+  filter: blur(160px);
+}
+
+.defi-img {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 95%;
+  box-shadow: 0px 0px 8px 8px rgba(155, 155, 250, 0.2);
+  border-radius: 25px;
+  max-width: 80%;
 }
