@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://pave.so
+
+# Sitemaps
+Sitemap: https://pave.so/sitemap.xml

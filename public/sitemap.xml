@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://pave.so</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.273Z</lastmod></url>
+<url><loc>https://pave.so/blog</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.273Z</lastmod></url>
+<url><loc>https://pave.so/cancel</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.273Z</lastmod></url>
+<url><loc>https://pave.so/checkout/failed</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.273Z</lastmod></url>
+<url><loc>https://pave.so/checkout/success</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/dashboard</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/login</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/plans</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/privacy</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/signup</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/terms</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+<url><loc>https://pave.so/blog/roi-company-culture</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-10-16T01:28:53.274Z</lastmod></url>
+</urlset>
