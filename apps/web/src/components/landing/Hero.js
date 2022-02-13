@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import {
     withStyles, withTheme
-} from '@material-ui/core/styles';
+} from '@material-ui/styles';
 import { Grid, Typography, Container, Button, Link } from '@material-ui/core';
 import Nav from '../Nav';
 import config from '../../../config';
