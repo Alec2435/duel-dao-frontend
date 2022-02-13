@@ -11,7 +11,12 @@ const styles = theme => ({
     toolbar: theme.mixins.toolbar
 })
 
-class Privacy extends React.Component {
+interface PrivacyProps {
+    classes: { [key: string]: string };
+  }
+  
+
+class Privacy extends React.Component<PrivacyProps> {
     constructor(props) {
         super(props);
     }

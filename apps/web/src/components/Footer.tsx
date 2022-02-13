@@ -37,8 +37,12 @@ const styles = (theme) => ({
     }
 })
 
-class Footer extends Component {
-
+interface FooterProps {
+    classes: { [key: string]: string };
+  }
+  
+  class Footer extends Component<FooterProps> {
+  
     onClick = () => {
         window.location.href = "/";
     }
