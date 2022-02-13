@@ -3,7 +3,6 @@ import {
     withStyles, withTheme
 } from '@material-ui/core/styles';
 import { Grid, Typography, Container, Button, Link } from '@material-ui/core';
-import WaitlistField from '../subComponents/WaitlistField';
 import Nav from '../Nav';
 import config from '../../../config';
 import { ArrowRight, ArrowRightAlt } from '@material-ui/icons';
