@@ -25,7 +25,7 @@ class Terms extends React.Component<TermProps> {
       <div className={classes.root}>
         <Nav />
         <div className={classes.toolbar} />
-        <Container maxWidth="sm" style={{ textAlign: "left" }}>
+        <Container maxWidth="sm" style={{textAlign:"left"}}>
           <h2>{config.COMPANY_NAME} Terms of Service</h2>
           <h3>1. Terms</h3>
           <p>

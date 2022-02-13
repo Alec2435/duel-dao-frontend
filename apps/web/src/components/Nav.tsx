@@ -14,8 +14,8 @@ const styles = () => ({
 
 interface NavProps {
   classes: { [key: string]: string };
-  uid: string;
-  app: boolean;
+  uid?: string;
+  app?: boolean;
 }
 
 class Nav extends Component<NavProps> {

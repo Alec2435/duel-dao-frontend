@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Nav from '../src/components/Nav';
-import {   Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import config from '../config';
 
@@ -28,7 +28,7 @@ class Privacy extends React.Component<PrivacyProps> {
         return (<div className={classes.root}>
             <Nav />
             <div className={classes.toolbar} />
-            <Container maxWidth="sm" style={{textAlign:"left"}}>
+            <Container maxWidth="sm" style={{ textAlign: "left" }}>
                 <h2>Privacy Policy</h2>
                 <p>Your privacy is important to us. It is {config.COMPANY_NAME}&apos;s policy to respect your privacy regarding any information we may collect from you across our website, <a href="{config.COMPANY_URL}">{config.COMPANY_URL}</a>, and other sites we own and operate.</p>
                 <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.</p>
