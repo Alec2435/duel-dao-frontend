@@ -33,11 +33,11 @@ class Nav extends Component {
                     <Toolbar style={{ paddingTop: 16, width: "100%" }} >
                         <Grid container alignItems="center">
                             <div style={{ cursor: "pointer", display: 'flex', alignItems: 'center' }} onClick={() => window.location.href = `${uid ? "/dashboard" : "/"}`}>
-                                <Image width={50} height={50} src={config.COMPANY_LOGO_URL} />
-                                <Typography variant="h6" display="inline" className='main-text'>{config.DISPLAY_COMPANY_NAME}</Typography>
+                                <Image width={40} height={40} src={config.COMPANY_LOGO_URL} />
+                                <Typography variant="h6" display="inline" className='main-text' style={{ marginLeft: 8 }}>{config.DISPLAY_COMPANY_NAME}</Typography>
                             </div>
                             {app &&
-                                <Button className='action-button' component="a" href="/app" style={{marginLeft: 'auto'}}>
+                                <Button className='action-button' component="a" href="/app" style={{ marginLeft: 'auto' }}>
                                     Enter App
                                 </Button>
                             }

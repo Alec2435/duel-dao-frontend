@@ -46,13 +46,12 @@ const styles = theme => ({
         }
     },
     heroText: {
-        order: 0,
         paddingTop: 40,
         paddingBottom: 40,
         textAlign: 'center',
         [theme.breakpoints.down('sm')]: {
+            marginTop: 60,
             textAlign: 'center',
-            order: 1
         }
     },
     blobHolder: {
@@ -65,9 +64,7 @@ const styles = theme => ({
     },
     heroImage: {
         position: 'relative',
-        order: 1,
         [theme.breakpoints.down('sm')]: {
-            order: 0,
         },
     },
     cta: {
@@ -116,11 +113,11 @@ class Hero extends Component {
                             <div className={classes.backdrop}></div>
                             <div style={{ width: '80%', height: 400, zIndex: 4, display: 'flex', flexDirection: 'column' }}>
                                 <div style={{ flex: 1, borderRadius: 8, background: config.PALETTE.BACKGROUND_PRIMARY, boxShadow: '0 0 16px rgb(0 155 255 / 25%)' }}>placeholder</div>
-                                <Link href="#">
+                                <Link href="https://discord.com/invite/B4zVzHPFwf" target="_blank">
                                     <div className='horiz' style={{ color: "#FFF", justifyContent: 'flex-end' }}>
 
 
-                                        <Typography variant='body2' style={{ fontSize: 12, paddingTop: 2 }} ><i>check out the white paper</i></Typography>
+                                        <Typography variant='body2' style={{ fontSize: 12, paddingTop: 2 }} ><i>Join our Dicord</i></Typography>
                                         <ArrowRight fill={"#FFF"} style={{ marginLeft: 4, height: 16, width: 16 }} />
                                     </div>
                                 </Link>

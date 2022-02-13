@@ -3,7 +3,7 @@ module.exports = {
     COMPANY_NAME: "Duel Dao",
     DISPLAY_COMPANY_NAME: "Duel Dao",
     COMPANY_URL: "https://dueldao.xyz",
-    COMPANY_LOGO_URL: "/logo-dark.svg",
+    COMPANY_LOGO_URL: "/favicon.png",
     TAGLINE: "DAO vs DAO gaming on-chain",
     SUPPORT_EMAIL: "nikita.jerschow@gmail.com",
     TWITTER_URL: 'https://twitter.com/nikita_jerschow',
