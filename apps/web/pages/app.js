@@ -5,7 +5,6 @@ import {
 import { Grid, Typography } from '@material-ui/core';
 import axios from 'axios';
 import config from '../config';
-import GameDisplay from '../src/components/app/GameDisplay';
 import { useChessBoardState } from '../src/service/contract-interface';
 
 const useStyles = makeStyles({
@@ -23,8 +22,6 @@ const Dashboard = (props) => {
 
     return <div className={classes.root}>
         This is app.js
-
-        <GameDisplay />
     </div>
 }
 

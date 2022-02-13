@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from '../src/components/Nav';
 import { Container } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import config from '../config';
 
 const styles = theme => ({
@@ -22,7 +22,7 @@ class Terms extends React.Component {
         return (<div className={classes.root}>
             <Nav />
             <div className={classes.toolbar} />
-            <Container maxWidth="sm" style={{textAlign:"left"}}>
+            <Container maxWidth="sm" style={{ textAlign: "left" }}>
                 <h2>{config.COMPANY_NAME} Terms of Service</h2>
                 <h3>1. Terms</h3>
                 <p>By accessing the website at <a href="{config.COMPANY_URL}">{config.COMPANY_URL}</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import theme from '../src/theme';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import AOS from 'aos';
 import Head from 'next/head';
 import config from '../config';

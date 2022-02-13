@@ -1,8 +1,8 @@
-import  { Component } from 'react';
+import { Component } from 'react';
 import {
     withStyles
-} from '@material-ui/core/styles';
-import { Grid, Typography, Container,  Link, Divider } from '@material-ui/core';
+} from '@material-ui/styles';
+import { Grid, Typography, Container, Link, Divider } from '@material-ui/core';
 import Image from 'next/image';
 import config from '../../config';
 

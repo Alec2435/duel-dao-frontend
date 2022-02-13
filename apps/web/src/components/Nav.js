@@ -2,7 +2,7 @@ import { Component } from 'react';
 import axios from "axios";
 import {
     withStyles
-} from '@material-ui/core/styles';
+} from '@material-ui/styles';
 import { Grid, Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import Image from 'next/image';
 
