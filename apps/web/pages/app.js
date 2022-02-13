@@ -18,7 +18,9 @@ const useStyles = makeStyles({
 
 const Dashboard = (props) => {
     const classes = useStyles();
-    const [boardState, refreshBoardState] = useChessBoardState()
+    // TODO: gameId
+    const gameId = 1
+    const [boardState, refreshBoardState] = useChessBoardState(gameId)
 
     return <div className={classes.root}>
         This is app.js
