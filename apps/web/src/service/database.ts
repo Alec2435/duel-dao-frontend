@@ -1,6 +1,6 @@
 
 import admin from '../../src/service/firebaseAdmin';
-import utils from '../../src/utils/utils';
+import * as utils from '../../src/utils/utils';
 
 const db = admin.firestore();
 

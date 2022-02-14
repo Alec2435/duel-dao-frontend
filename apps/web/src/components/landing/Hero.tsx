@@ -93,7 +93,7 @@ class Hero extends Component<HeroProps> {
 
     return (
       <div className={classes.root}>
-        <Nav auth app />
+        <Nav /* auth */ app />
         <Container maxWidth="md" style={{ height: "100%", zIndex: 1 }}>
           <Grid
             container

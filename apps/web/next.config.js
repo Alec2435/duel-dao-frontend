@@ -6,11 +6,11 @@ dotenvLoad();
 
 const withNextEnv = nextEnv();
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+/* const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true'
-});
+}); */
 
-module.exports = withTM(withNextEnv(withBundleAnalyzer({
+module.exports = withTM(withNextEnv({
     pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md'],
     
     webpack(config, options) {
@@ -49,4 +49,4 @@ module.exports = withTM(withNextEnv(withBundleAnalyzer({
 
         return config;
     }
-})));
+}));

@@ -1,24 +1,24 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-    ],
-    "plugins": ["autofix"],
-    "parser": "babel-eslint",
-    "rules": {
-        "no-restricted-exports": "off",
-        "no-case-declarations": "off",
-        "autofix/no-debugger": "error",
-        "autofix/no-unused-vars": "warn",
-        "no-unused-vars": "off",
-        "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off"
-    }
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@next/next/recommended"
+  ],
+  "plugins": ["autofix", "@typescript-eslint/eslint-plugin"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "no-restricted-exports": "off",
+    "no-case-declarations": "off",
+    "autofix/no-debugger": "error",
+    "autofix/no-unused-vars": "warn",
+    "no-unused-vars": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  }
 }
-
