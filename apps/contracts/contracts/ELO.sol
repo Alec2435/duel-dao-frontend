@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.10;
+
 /**
  * Simple ELO score rating system based on
  * https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details
@@ -74,7 +77,7 @@ library ELO {
         }
     }
 
-    function abs(int value) public returns (uint){
+    function abs(int value) public pure returns (uint){
         if (value>=0) return uint(value);
         else return uint(-1*value);
     }
@@ -82,7 +85,7 @@ library ELO {
     /**
      * Get current score for player
      */
-    function getScore(Scores storage self, address player) public returns (uint) {
+    function getScore(Scores storage self, address player) public view returns (uint) {
         if (self.scores[player].score <= 100) {
             return 100;
         }

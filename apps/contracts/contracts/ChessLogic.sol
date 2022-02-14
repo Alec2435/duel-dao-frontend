@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.10;
+
 library ChessLogic {
     struct State {
         int8[128] fields;

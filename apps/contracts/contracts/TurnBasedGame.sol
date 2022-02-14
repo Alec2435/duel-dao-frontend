@@ -55,7 +55,7 @@ contract TurnBasedGame {
         head = 'end';
     }
 
-    function getGamesOfPlayer(address player) public returns (bytes32[] memory) {
+    function getGamesOfPlayer(address player) public view returns (bytes32[] memory) {
         bytes32 playerHead = gamesOfPlayersHeads[player];
         uint256 counter = 0;
         for (bytes32 ga = playerHead; ga != 0; ga = gamesOfPlayers[player][ga]) {
@@ -70,7 +70,7 @@ contract TurnBasedGame {
         return data;
     }
 
-    function getOpenGameIds() public returns (bytes32[] memory) {
+    function getOpenGameIds() public view returns (bytes32[] memory) {
         uint256 counter = 0;
         for (bytes32 ga = head; ga != 'end'; ga = openGameIds[ga]) {
             counter++;
@@ -186,7 +186,7 @@ contract TurnBasedGame {
         }
     }
 
-    function isGameEnded(bytes32 gameId) public returns (bool) {
+    function isGameEnded(bytes32 gameId) public view returns (bool) {
         return games[gameId].ended;
     }
 

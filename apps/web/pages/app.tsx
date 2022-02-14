@@ -5,14 +5,11 @@ import {
 import { Grid, Typography } from '@material-ui/core';
 import axios from 'axios';
 import config from '../config';
-import { useChessBoardState } from '../src/service/contract-interface';
-
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { providers } from "ethers";
-import Web3Modal from "web3modal";
+import { initGame, usePlayerGameIds } from '../src/service/contract-interface';
 import { ConnectButton } from '../src/components/connect_button';
-
-const INFURA_ID = "3c79214add5e49d9a15fd67ec5dba754";
+import { useWeb3Account } from '../src/service/web3-provider';
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const useStyles = makeStyles({
     root: {
@@ -23,67 +20,36 @@ const useStyles = makeStyles({
     }
 })
 
-const providerOptions = {
-    walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-            infuraId: INFURA_ID
-        }
-    }
-}
-
-let web3Modal;
-if (typeof window !== 'undefined') {
-    web3Modal = new Web3Modal({
-        network: "mainnet",
-        cacheProvider: true,
-        providerOptions,
-    });
-}
-
 const Dashboard = (props) => {
     const classes = useStyles();
+    const router = useRouter()
+
     // TODO: gameId
     const gameId = 1
-    const [boardState, refreshBoardState] = useChessBoardState(gameId)
-    const [address, setAddress] = useState("");
-    const [chainId, setChainId] = useState(0);
-    const [provider, setProvider] = useState({});
 
-    async function onConnect () {
-        console.log("onConnect");
+    const { provider, connectAccount: onConnect, disconnectAccount: onDisconnect, address } = useWeb3Account()
 
-        if (!INFURA_ID) {
-            throw new Error("Missing Infura ID");
-        }
-
-        const web3Provider = await web3Modal.connect();
-        const provider = new providers.Web3Provider(web3Provider);
-        setProvider(provider);
-
-        const accounts = (await web3Provider.enable());
-        setAddress(accounts[0]);
-        setChainId(web3Provider.chainId);
-    }
-
-    async function onDisconnect () {
-        console.log("onDisconnect");
-
-        if (provider) {
-            await web3Modal.clearCachedProvider();
-        }
-        setAddress("");
-    }
+    const [playerGameIds, refreshGameIds] = usePlayerGameIds()
 
     // TODO(jyen): signMessage
     async function signMessage() {
     }
 
+    async function handleInitGame() {
+        const initGameId = await initGame(provider, "Player 1")
+        console.log("Game initted:", initGameId)
+        refreshGameIds()
+    }
+
     return (
-        <div className={classes.root}>
-            <div style={{ color: "#FFFFFF" }}>{address}</div>
+        <div className={classes.root} style={{ color: "#FFFFFF" }}>
+            <div>{address}</div>
             <ConnectButton title="Connect" onClick={onConnect} />
             <ConnectButton title="Disconnect" onClick={onDisconnect} />
+            <button onClick={handleInitGame}>StartGame</button>
+            <ul>
+            {playerGameIds.map(id => (<li key={id}><Link href={`app/game/${id}`}>{id}</Link></li>))}
+            </ul>
             This is app.js
         </div>
     )

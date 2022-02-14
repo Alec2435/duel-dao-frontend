@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.10;
 /**
  * Chess contract
  * Stores any amount of games with two players and current state.
@@ -19,7 +21,7 @@ contract Chess is TurnBasedGame, Auth {
     using ELO for ELO.Scores;
     ELO.Scores eloScores;
 
-    function getEloScore(address player) public returns(uint) {
+    function getEloScore(address player) public view returns(uint) {
         return eloScores.getScore(player);
     }
 
@@ -155,11 +157,11 @@ contract Chess is TurnBasedGame, Auth {
         emit GameStateChanged(gameId, gameStates[gameId].fields);
     }
 
-    function getCurrentGameState(bytes32 gameId) public returns (int8[128] memory) {
+    function getCurrentGameState(bytes32 gameId) public view returns (int8[128] memory) {
        return gameStates[gameId].fields;
     }
 
-    function getWhitePlayer(bytes32 gameId) public returns (address) {
+    function getWhitePlayer(bytes32 gameId) public view returns (address) {
        return gameStates[gameId].playerWhite;
     }
 
