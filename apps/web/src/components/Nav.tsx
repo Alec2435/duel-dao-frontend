@@ -1,78 +1,82 @@
-import { Component } from "react";
-import axios from "axios";
-import { withStyles } from "@material-ui/styles";
-import { Grid, Typography, AppBar, Toolbar, Button } from "@material-ui/core";
-import Image from "next/image";
+import { Component } from 'react'
+import axios from 'axios'
+import { withStyles } from '@material-ui/styles'
+import { Grid, Typography, AppBar, Toolbar, Button } from '@material-ui/core'
+import Image from 'next/image'
 
-import config from "../../config";
+import config from '../../config'
 
 const styles = () => ({
   root: {
-    zIndex: 99,
-  },
-});
+    zIndex: 99
+  }
+})
 
 interface NavProps {
-  classes: { [key: string]: string };
-  uid?: string;
-  app?: boolean;
+  classes: { [key: string]: string }
+  uid?: string
+  app?: boolean
 }
 
 class Nav extends Component<NavProps> {
   handleSignOut = async () => {
     try {
-      const response = await axios.post("/api/auth/signout");
-      console.log("Sign out response: ", response);
-      window.location.href = "/login";
+      const response = await axios.post('/api/auth/signout')
+      console.log('Sign out response: ', response)
+      window.location.href = '/login'
     } catch (error) {
-      console.log("[handleSignOut] Error ", error);
+      console.log('[handleSignOut] Error ', error)
     }
-  };
+  }
 
-  render() {
-    const { classes, uid, app } = this.props;
+  render () {
+    const { classes, uid, app } = this.props
     return (
       <div className={classes.root}>
-        <AppBar color="transparent" elevation={0} position="static">
-          <Toolbar style={{ paddingTop: 16, width: "100%" }}>
-            <Grid container alignItems="center">
+        <AppBar color='transparent' elevation={0} position='static'>
+          <Toolbar style={{ paddingTop: 16, width: '100%' }}>
+            <Grid container alignItems='center'>
               <div
                 style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center'
                 }}
                 onClick={() =>
-                  (window.location.href = `${uid ? "/dashboard" : "/"}`)
+                  (window.location.href = `${uid ? '/dashboard' : '/'}`)
                 }
               >
-                <Image width={40} height={40} src={config.COMPANY_LOGO_URL} />
+                {/* <Image width={40} height={40} src={config.COMPANY_LOGO_URL} /> */}
                 <Typography
-                  variant="h6"
-                  display="inline"
-                  className="main-text"
-                  style={{ marginLeft: 8 }}
+                  variant='h6'
+                  display='inline'
+                  className='main-text'
+                  style={{ color: "#FFF" }}
                 >
-                  {config.DISPLAY_COMPANY_NAME}
+                  ⚔️ {config.DISPLAY_COMPANY_NAME}
                 </Typography>
               </div>
               {app && (
                 <Button
-                  className="action-button"
-                  component="a"
-                  href="/app"
-                  style={{ marginLeft: "auto" }}
+                  className='action-button'
+                  style={{ marginLeft: 'auto' }}
+                  onClick={() =>
+                    window.open(
+                      'https://discord.com/invite/B4zVzHPFwf',
+                      '_blank'
+                    )
+                  }
                 >
-                  Enter App
+                  Join our Discord
                 </Button>
               )}
             </Grid>
           </Toolbar>
         </AppBar>
       </div>
-    );
+    )
   }
 }
 
 // @ts-ignore
-export default withStyles(styles)(Nav);
+export default withStyles(styles)(Nav)
