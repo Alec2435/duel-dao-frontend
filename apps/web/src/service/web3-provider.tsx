@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
@@ -64,6 +64,12 @@ export function Web3AccountProvider({ children }) {
         }
         setAddress("");
     }
+
+    useEffect(() => {
+        if (web3Modal.cachedProvider) {
+            onConnect()
+        }
+    }, [])
 
     const value: AccountProviderValue = { provider, connectAccount: onConnect, disconnectAccount: onDisconnect, address, chainId };
 

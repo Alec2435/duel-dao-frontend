@@ -46,6 +46,8 @@ export function usePlayerGameIds(): [string[], () => void] {
         if (provider && address) {
             const state = await getPlayerGames(provider, address)
             setPlayerGames(state)
+        } else if (playerGames.length > 0) {
+            setPlayerGames([])
         }
     }
 
@@ -82,6 +84,8 @@ export function useChessBoardState(gameId: GameID): [any, () => void] {
             console.log("Refreshing board FOREAL", gameId, address)
             const state = await getChessBoardState(provider, gameId)
             setBoardState(state)
+        } else if (boardState !== null) {
+            setBoardState(null)
         }
         console.log("Done Refreshing")
     }
