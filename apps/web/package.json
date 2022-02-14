@@ -44,14 +44,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-google-button": "^0.7.2",
-<<<<<<< HEAD
-    "react-markdown": "^6.0.2",
     "react-parallax-tilt": "^1.4.90",
-    "stripe": "^8.137.0",
-    "web3": "^1.7.0"
-=======
-    "react-markdown": "^6.0.3",
-    "react-parallax-tilt": "^1.6.0",
     "react-responsive": "^9.0.0-beta.6",
     "react-syntax-highlighter": "^15.4.5",
     "remark-gfm": "^3.0.1",
@@ -60,7 +53,6 @@
     "styled-components": "^5.3.3",
     "web3": "^1.7.0",
     "web3modal": "^1.9.5"
->>>>>>> 081e79ca9c9c881b26bd8cdf64893a62afd56c55
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.0.10",
