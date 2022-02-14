@@ -5,6 +5,7 @@ import {
 import { Container, Grid, Typography } from '@material-ui/core';
 import axios from 'axios';
 import { Chessboard } from "react-chessboard";
+import { recoverPersonalSignature, web3 } from '../../utils/security';
 
 const useStyles = makeStyles({
     root: {
@@ -20,12 +21,73 @@ const useStyles = makeStyles({
         borderRadius: 8,
     },
     gameBoard: {
-textAlign: 'center'
+        textAlign: 'center'
     }
 })
 
-const GameDisplay = (props) => {
+const GameDisplay = ({ address }) => {
     const classes = useStyles();
+
+    async function triggerVote() {
+        
+        if (!web3) {
+            return;
+        }
+        // test message
+        const message = await axios.get(GENERATOR_URL_BASE + 'nonce/' + address).then(res => res.data.message);
+
+        // encode message (hex)
+        const hexMsg = convertUtf8ToHex(message ?? '');
+
+        try {
+            // open modal
+            this.toggleModal();
+
+            // toggle pending request indicator
+            this.setState({
+                pendingRequest: true,
+                modalTitle: 'Pending signature request',
+                modalContent: 'Please open your wallet and sign the message. This is for security purposes and does not cost you anything.'
+            });
+
+            // send message
+            const result = await web3.eth.personal.sign(hexMsg, address);
+
+            // trying out auth on server
+            await axios.post(GENERATOR_URL_BASE + 'login', {
+                address: address,
+                signature: result,
+            }).then(res => sessionStorage.setItem('token', res.data.token))
+                .catch(err => console.error('error occurred while logging in.'));
+
+            // verify signature
+            const signer = recoverPersonalSignature(result, message);
+            const verified = signer.toLowerCase() === address.toLowerCase();
+
+            // format displayed result
+            const formattedResult = {
+                action: SIGN_AUTH,
+                address,
+                signer,
+                verified,
+                result
+            };
+
+            // display result
+            this.setState({
+                web3,
+                pendingRequest: false,
+                showModal: false,
+                // result: formattedResult || null,
+                currentStage: MintStage.PICK_TITLE
+            });
+        } catch (error) {
+            console.error(error); // tslint:disable-line
+            this.setState({ web3, pendingRequest: false, result: null });
+        }
+
+    }
+
 
     return <div className={classes.root}>
         <Container maxWidth='lg'>
@@ -51,3 +113,7 @@ const GameDisplay = (props) => {
 }
 
 export default GameDisplay    
+
+function convertUtf8ToHex(arg0) {
+    throw new Error('Function not implemented.');
+}
