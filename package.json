@@ -16,7 +16,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.17.0",
     "prettier": "^2.5.1",
     "turbo": "^1.1.2"
   },

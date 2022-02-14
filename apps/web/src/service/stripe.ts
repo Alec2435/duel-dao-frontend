@@ -95,7 +95,7 @@ export const stripeWebHook = async (req, res) => {
       case 'checkout.session.completed':
         const checkoutSession = data.object;
         console.log("Checkout session completed:", checkoutSession);
-        await database.upgradeAccount(checkoutSession.metadata.uid, checkoutSession.metadata.plan, checkoutSession.customer);
+        await database.upgradeAccount(checkoutSession.metadata.uid, checkoutSession.metadata.plan, checkoutSession.customer, null);
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.

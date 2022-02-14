@@ -1,5 +1,5 @@
 
-module.exports.makeid = (length) => {
+export const makeid = (length) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
@@ -10,7 +10,7 @@ module.exports.makeid = (length) => {
 }
 
 
-module.exports.cleanObj = (obj) => {
+export const cleanObj = (obj) => {
     console.log({obj})
     for (var propName in obj) {
         if (obj[propName] === undefined) {

@@ -1,16 +1,17 @@
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
+const withTM = require("next-transpile-modules")([]);
 
 dotenvLoad();
 
 const withNextEnv = nextEnv();
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+/* const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true'
-});
+}); */
 
-module.exports = withNextEnv(withBundleAnalyzer({
-    pageExtensions: ['js', 'jsx', 'md'],
+module.exports = withTM(withNextEnv({
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md'],
     
     webpack(config, options) {
         // config.module.rules.push({
