@@ -10,7 +10,7 @@ module.exports = {
     META: {
         TITLE: "DAO vs DAO gaming on-chain",
         DESCRIPTION: "",
-        IMAGE: ""
+        IMAGE: "/banner.jpg"
     },
     PALETTE: {
         BACKGROUND_PRIMARY: "#101629",
