@@ -124,7 +124,7 @@ class Hero extends Component<HeroProps> {
               </Typography>
               <Button
                 onClick={() =>
-                  window.open('https://discord.com/invite/B4zVzHPFwf', '_blank')
+                  window.open('https://discord.gg/NAgsHBYdTY', '_blank')
                 }
                 variant='contained'
                 className='action-button'
@@ -174,7 +174,7 @@ class Hero extends Component<HeroProps> {
                   placeholder
                 </div> */}
                 <Link
-                  href='https://discord.com/invite/B4zVzHPFwf'
+                  href='https://discord.gg/NAgsHBYdTY'
                   target='_blank'
                 >
                   <div

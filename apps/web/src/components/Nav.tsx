@@ -62,7 +62,7 @@ class Nav extends Component<NavProps> {
                   style={{ marginLeft: 'auto' }}
                   onClick={() =>
                     window.open(
-                      'https://discord.com/invite/B4zVzHPFwf',
+                      'https://discord.gg/NAgsHBYdTY',
                       '_blank'
                     )
                   }
