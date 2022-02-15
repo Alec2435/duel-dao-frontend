@@ -164,6 +164,7 @@ class Hero extends Component<HeroProps> {
                 }}
               >
                 <video
+                  style={{ maxWidth: '100%' }}
                   src='/its-time-to-duel.mp4'
                   autoPlay
                   muted
