@@ -84,6 +84,10 @@ contract TurnBasedGame {
         return data;
     }
 
+    function getGameData(bytes32 gameId) public view returns (Game memory) {
+        return games[gameId];
+    }
+
     // closes a game that is not currently running
     function closePlayerGame(bytes32 gameId) public {
         Game memory game = games[gameId];
@@ -247,8 +251,10 @@ contract TurnBasedGame {
         games[gameId].player2Alias = player2Alias;
 
         // Add game to gamesOfPlayers
-        gamesOfPlayers[msg.sender][gameId] = gamesOfPlayersHeads[msg.sender];
-        gamesOfPlayersHeads[msg.sender] = gameId;
+        if (games[gameId].player1 != msg.sender) {
+            gamesOfPlayers[msg.sender][gameId] = gamesOfPlayersHeads[msg.sender];
+            gamesOfPlayersHeads[msg.sender] = gameId;
+        }
 
         // Remove from openGameIds
         if (head == gameId) {

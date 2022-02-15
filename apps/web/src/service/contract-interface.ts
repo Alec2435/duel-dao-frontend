@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { abi } from "./contract-abi/Chess.json";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useWeb3Account } from "./web3-provider";
 import { CurrentPosition, Square } from "react-chessboard";
 
-const contractAddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318";
+const contractAddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d";
 const contractABI = abi;
 
 export type RawGameState = number[];
@@ -13,22 +13,38 @@ export type Web3Provider =
     | ethers.providers.ExternalProvider
     | ethers.providers.JsonRpcFetchFunc;
 
+export interface GameData {
+    player1: string; //'0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    player2: string; //'0x0000000000000000000000000000000000000000',
+    player1Alias: string; //'Player 1',
+    player2Alias: string; //'',
+    nextPlayer: string; //'0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    winner: string; //'0x0000000000000000000000000000000000000000',
+    ended: boolean;
+    pot: BigNumber; // { value: "0" },
+    player1Winnings: BigNumber; // { value: "0" },
+    player2Winnings: BigNumber; // { value: "0" },
+    turnTime: BigNumber; // { value: "3600" },
+    timeoutStarted: BigNumber; // { value: "0" },
+    timeoutState: 0;
+}
+
 export async function initGame(
-    provider: ethers.providers.Web3Provider,
+    contract: ethers.Contract,
     player1Alias: string,
 ) {
-    const signer = provider.getSigner();
-    const chessContract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer,
-    );
+    const options = { value: ethers.utils.parseEther("0.0") };
+    const initTxn = await contract.initGame(player1Alias, true, 3600, options);
+    await initTxn.wait();
+}
 
-    const initTxn = await chessContract.initGame(player1Alias, true, 3600);
-
-    const waited = await initTxn.wait();
-
-    return initTxn.hash;
+export async function joinGame(
+    contract: ethers.Contract,
+    id: string,
+    player2Alias: string,
+) {
+    const transaction = await contract.joinGame(id, player2Alias);
+    await transaction.wait();
 }
 
 const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -88,31 +104,37 @@ export function stateToPosition(
     // return null
 }
 
+export function useContract(
+    provider: ethers.providers.Web3Provider | undefined,
+) {
+    return useMemo(() => {
+        if (!provider) return undefined;
+        const signer = provider.getSigner();
+        return new ethers.Contract(contractAddress, contractABI, signer);
+    }, [provider]);
+}
+
 export async function getPlayerGames(
-    provider: ethers.providers.Web3Provider,
+    contract: ethers.Contract,
     address: string,
 ): Promise<string[]> {
-    // getGamesOfPlayer
-    const signer = provider.getSigner();
-    const chessContract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer,
-    );
-
-    const gameIds = await chessContract.getGamesOfPlayer(address);
-
-    return gameIds;
+    return contract.getGamesOfPlayer(address);
 }
 
 export function usePlayerGameIds(): [string[], () => void] {
     const { provider, address } = useWeb3Account();
+    const contract = useContract(provider);
     const [playerGames, setPlayerGames] = useState([]);
 
     async function refreshBoardState() {
-        if (provider && address) {
-            const state = await getPlayerGames(provider, address);
-            setPlayerGames(state);
+        if (contract && address) {
+            try {
+                const state = await getPlayerGames(contract, address);
+                setPlayerGames(state);
+            } catch (e) {
+                console.error(e);
+                setPlayerGames([]);
+            }
         } else if (playerGames.length > 0) {
             setPlayerGames([]);
         }
@@ -121,10 +143,66 @@ export function usePlayerGameIds(): [string[], () => void] {
     // Refreshes the data on first run, and if the gameId changes
     useEffect(() => {
         refreshBoardState();
-    }, [provider, address]);
+    }, [contract, address]);
 
     // TODO: listen to updates
     return [playerGames, refreshBoardState];
+}
+
+export function useJoinableGames(): [string[], () => void] {
+    const { provider } = useWeb3Account();
+    const contract = useContract(provider);
+    const [data, setData] = useState([]);
+
+    async function refreshData() {
+        if (contract) {
+            try {
+                const state = await contract.getOpenGameIds();
+                setData(state);
+            } catch (e) {
+                console.error(e);
+                setData([]);
+            }
+        } else if (data.length > 0) {
+            setData([]);
+        }
+    }
+
+    // Refreshes the data on first run, and if the gameId changes
+    useEffect(() => {
+        refreshData();
+    }, [contract]);
+
+    // TODO: listen to updates
+    return [data, refreshData];
+}
+
+export function useGameData(id: string): [GameData | undefined, () => void] {
+    const { provider } = useWeb3Account();
+    const contract = useContract(provider);
+    const [data, setData] = useState(undefined);
+
+    async function refreshData() {
+        if (contract) {
+            try {
+                const state = await contract.getGameData(id);
+                setData(state);
+            } catch (e) {
+                console.error(e);
+                setData(undefined);
+            }
+        } else if (data.length > 0) {
+            setData(undefined);
+        }
+    }
+
+    // Refreshes the data on first run, and if the gameId changes
+    useEffect(() => {
+        refreshData();
+    }, [contract]);
+
+    // TODO: listen to updates
+    return [data, refreshData];
 }
 
 export async function getChessBoardState(
