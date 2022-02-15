@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import AppFrame from "../../../src/components/app/AppFrame";
 import GameDisplay from "../../../src/components/app/GameDisplay";
 import Root from "../../../src/components/Root";
 import {
@@ -14,9 +15,9 @@ const GamePage = (props) => {
     const positions = stateToPosition(boardState);
 
     return (
-        <Root>
+        <AppFrame>
             <GameDisplay position={positions} />
-        </Root>
+        </AppFrame>
     );
 };
 

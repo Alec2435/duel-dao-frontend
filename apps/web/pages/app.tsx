@@ -1,5 +1,13 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import {
+    Grid,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import config from "../config";
 import { initGame, usePlayerGameIds } from "../src/service/contract-interface";
@@ -8,6 +16,9 @@ import { useWeb3Account } from "../src/service/web3-provider";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Root from "../src/components/Root";
+import AppFrame from "../src/components/app/AppFrame";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import theme from "../src/theme";
 
 const Dashboard = (props) => {
     const {
@@ -23,25 +34,56 @@ const Dashboard = (props) => {
     async function signMessage() {}
 
     async function handleInitGame() {
-        const initGameId = await initGame(provider, "Player 1");
-        console.log("Game initted:", initGameId);
+        await initGame(provider, "Player 1");
         refreshGameIds();
     }
 
     return (
-        <Root>
-            <div>{address}</div>
-            <ConnectButton title="Connect" onClick={onConnect} />
-            <ConnectButton title="Disconnect" onClick={onDisconnect} />
-            <button onClick={handleInitGame}>StartGame</button>
-            <ul>
+        <AppFrame>
+            <List>
                 {playerGameIds.map((id) => (
-                    <li key={id}>
-                        <Link href={`app/game/${id}`}>{id}</Link>
-                    </li>
+                    <ListItem disablePadding key={id}>
+                        <Link href={`app/game/${id}`} passHref>
+                            <ListItemButton LinkComponent="a">
+                                {/* <ListItemIcon></ListItemIcon> */}
+                                {/* <ListItemText
+                                    primary={id}
+                                    style={{ "& MuiTypography-root": { fontFamily: "monospace"} }}
+                                /> */}
+                                <ListItemText
+                                    disableTypography
+                                    primary={
+                                        <Typography
+                                            style={{ fontFamily: "monospace" }}
+                                        >
+                                            {id}
+                                        </Typography>
+                                    }
+                                />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
                 ))}
-            </ul>
-        </Root>
+                {!address ? null : (
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={handleInitGame}>
+                            <ListItemIcon>
+                                <AddCircleIcon
+                                    htmlColor={theme.palette.text.primary}
+                                />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="Start Game"
+                                style={{
+                                    fontFamily:
+                                        theme.typography.body1.fontFamily,
+                                }}
+                            />
+                        </ListItemButton>
+                    </ListItem>
+                )}
+            </List>
+        </AppFrame>
     );
 };
 
