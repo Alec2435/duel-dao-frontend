@@ -1333,7 +1333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.17.0, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.17.2
   resolution: "@babel/runtime@npm:7.17.2"
   dependencies:
@@ -3131,6 +3131,22 @@ __metadata:
   version: 2.0.0
   resolution: "@metamask/safe-event-emitter@npm:2.0.0"
   checksum: 8b717ac5d53df0027c05509f03d0534700b5898dd1c3a53fb2dc4c0499ca5971b14aae67f522d09eb9f509e77f50afa95fdb3eda1afbff8b071c18a3d2905e93
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "@mui/icons-material@npm:5.4.1"
+  dependencies:
+    "@babel/runtime": ^7.17.0
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^16.8.6 || ^17.0.0
+    react: ^17.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: b4b6270bcab66ede1829452bbbad467acb5a9bc397fbc9021956399f5a9e0acb61c671ce744c278b198636bc49353e31c7e373d927890d808cac01b5ec75bec8
   languageName: node
   linkType: hard
 
@@ -5250,6 +5266,7 @@ __metadata:
     "@material-ui/core": ^5.0.0-beta.5
     "@material-ui/icons": ^4.11.2
     "@material-ui/styles": ^4.11.4
+    "@mui/icons-material": ^5.4.1
     "@next/bundle-analyzer": ^12.0.10
     "@next/eslint-plugin-next": ^12.0.10
     "@stripe/stripe-js": ^1.22.0

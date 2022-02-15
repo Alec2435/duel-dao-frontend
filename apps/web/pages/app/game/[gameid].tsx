@@ -1,12 +1,24 @@
-import { useRouter } from "next/router"
-import { useChessBoardState } from "../../../src/service/contract-interface"
+import { useRouter } from "next/router";
+import AppFrame from "../../../src/components/app/AppFrame";
+import GameDisplay from "../../../src/components/app/GameDisplay";
+import Root from "../../../src/components/Root";
+import {
+    stateToPosition,
+    useChessBoardState,
+} from "../../../src/service/contract-interface";
 
 const GamePage = (props) => {
-    const router = useRouter()
-    const gameId = router.query.gameid as string
-    const [boardState, refreshBoardState] = useChessBoardState(gameId)
+    const router = useRouter();
+    const gameId = router.query.gameid as string;
+    const [boardState, refreshBoardState] = useChessBoardState(gameId);
 
-    return <pre>{JSON.stringify(boardState, null, 4)}</pre>
-}
+    const positions = stateToPosition(boardState);
 
-export default GamePage
+    return (
+        <AppFrame>
+            <GameDisplay position={positions} />
+        </AppFrame>
+    );
+};
+
+export default GamePage;
