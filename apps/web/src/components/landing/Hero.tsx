@@ -117,7 +117,7 @@ class Hero extends Component<HeroProps> {
               style={{ zIndex: 8, color: '#FFF' }}
             >
               <Typography variant='h4' className='main-text' paragraph>
-                On-chain DAO vs DAO gaming
+                DAO vs DAO on-chain chess
               </Typography>
               <Typography variant='body1' className='detail-text' paragraph>
                 The biggest game of chess at ETH Denver
