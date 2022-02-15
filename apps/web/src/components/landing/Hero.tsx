@@ -95,6 +95,17 @@ interface HeroProps {
 }
 
 class Hero extends Component<HeroProps> {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showVid: false
+    }
+  }
+
+  componentDidMount (): void {
+    this.setState({ showVid: true })
+  }
+
   render () {
     const { classes } = this.props
 
@@ -130,7 +141,7 @@ class Hero extends Component<HeroProps> {
                 className='action-button'
               >
                 Join our Discord
-              </Button> 
+              </Button>
             </Grid>
             <Grid
               item
@@ -152,7 +163,14 @@ class Hero extends Component<HeroProps> {
                   flexDirection: 'column'
                 }}
               >
-                <iframe
+                <video
+                  src='/its-time-to-duel.mp4'
+                  autoPlay
+                  muted
+                  loop
+                  controls
+                ></video>
+                {/* <iframe
                   style={{
                     borderRadius: 8
                   }}
@@ -161,7 +179,7 @@ class Hero extends Component<HeroProps> {
                   frameBorder='0'
                   allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                   allowFullScreen
-                ></iframe>
+                ></iframe> */}
 
                 {/* <div
                   style={{
@@ -173,10 +191,7 @@ class Hero extends Component<HeroProps> {
                 >
                   placeholder
                 </div> */}
-                <Link
-                  href='https://discord.gg/NAgsHBYdTY'
-                  target='_blank'
-                >
+                <Link href='https://discord.gg/NAgsHBYdTY' target='_blank'>
                   <div
                     className='horiz'
                     style={{ color: '#FFF', justifyContent: 'flex-end' }}
