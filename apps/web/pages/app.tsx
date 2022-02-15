@@ -7,7 +7,6 @@ import { ConnectButton } from "../src/components/connect_button";
 import { useWeb3Account } from "../src/service/web3-provider";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import GameDisplay from "../src/components/app/GameDisplay";
 import Root from "../src/components/Root";
 
 const Dashboard = (props) => {
@@ -42,8 +41,6 @@ const Dashboard = (props) => {
                     </li>
                 ))}
             </ul>
-            This is app.js
-            <GameDisplay />
         </Root>
     );
 };
