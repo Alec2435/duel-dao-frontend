@@ -130,7 +130,7 @@ class Hero extends Component<HeroProps> {
                 className='action-button'
               >
                 Join our Discord
-              </Button>
+              </Button> 
             </Grid>
             <Grid
               item
