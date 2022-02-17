@@ -4,7 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { useWeb3Account } from "./web3-provider";
 import { CurrentPosition, Square } from "react-chessboard";
 
-const contractAddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d";
+const contractAddress = "0xE3011A37A904aB90C8881a99BD1F6E21401f1522";
 const contractABI = abi;
 
 export type RawGameState = number[];
@@ -19,6 +19,7 @@ export interface GameData {
     player1Alias: string; //'Player 1',
     player2Alias: string; //'',
     nextPlayer: string; //'0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+    nextPlayerIndex: number; // 1 | 2,
     winner: string; //'0x0000000000000000000000000000000000000000',
     ended: boolean;
     pot: BigNumber; // { value: "0" },
@@ -56,6 +57,19 @@ const stateArray: (Square | undefined)[] = numbers
         letters.map((l) => `${l}${n}`).concat(new Array(8).fill(undefined)),
     )
     .flatMap((items) => items) as (Square | undefined)[];
+
+export function squareToIndex(square: Square): number {
+    const x = letters.indexOf(square[0]);
+    const y = parseInt(square[1]);
+    if (isNaN(y) || x === -1 || typeof y !== "number") {
+        throw new Error("Invalid square");
+    }
+    return (8 - y) * 16 + x;
+}
+
+if (typeof window !== "undefined") {
+    window["sqi"] = squareToIndex;
+}
 
 function stateNumberToType(pieceNumber: number): string | undefined {
     switch (Math.abs(pieceNumber)) {
@@ -191,7 +205,7 @@ export function useGameData(id: string): [GameData | undefined, () => void] {
                 console.error(e);
                 setData(undefined);
             }
-        } else if (data.length > 0) {
+        } else if (data !== undefined) {
             setData(undefined);
         }
     }

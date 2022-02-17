@@ -554,43 +554,43 @@ library ChessLogic {
     // checks whether movingPlayerColor's king gets checked by move
     function checkLegality(State storage self, uint256 fromIndex, uint256 toIndex, int8 fromFigure, int8 toFigure, int8 movingPlayerColor) internal returns (bool){
         // Piece that was moved was the king
-        if (abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)))) {
-            if (checkForCheck(self, uint(toIndex), movingPlayerColor)) {
-                revert();
-            }
-            // Else we can skip the rest of the checks
-            return true;
-        }
+        // if (abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)))) {
+        //     if (checkForCheck(self, uint(toIndex), movingPlayerColor)) {
+        //         revert();
+        //     }
+        //     // Else we can skip the rest of the checks
+        //     return true;
+        // }
 
-        int8 kingIndex = getOwnKing(self, movingPlayerColor);
+        // int8 kingIndex = getOwnKing(self, movingPlayerColor);
 
-        // Moved other piece, but own king is still in check
-        if (checkForCheck(self, uint(int(kingIndex)), movingPlayerColor)) {
-            revert();
-        }
+        // // Moved other piece, but own king is still in check
+        // if (checkForCheck(self, uint(int(kingIndex)), movingPlayerColor)) {
+        //     revert();
+        // }
 
 
-        // through move of fromFigure away from fromIndex,
-        // king may now be in danger from that direction
-        int8 kingDangerDirection = getDirection(uint256(int256(kingIndex)), fromIndex);
-        // get the first Figure in this direction. Threat of Knight does not change through move of fromFigure.
-        // All other figures can not jump over other figures. So only the first figure matters.
-        int8 firstFigureIndex = getFirstFigure(self, kingDangerDirection,kingIndex);
+        // // through move of fromFigure away from fromIndex,
+        // // king may now be in danger from that direction
+        // int8 kingDangerDirection = getDirection(uint256(int256(kingIndex)), fromIndex);
+        // // get the first Figure in this direction. Threat of Knight does not change through move of fromFigure.
+        // // All other figures can not jump over other figures. So only the first figure matters.
+        // int8 firstFigureIndex = getFirstFigure(self, kingDangerDirection,kingIndex);
 
-        // if we found a figure in the danger direction
-        if (firstFigureIndex != -1) {
-            int8 firstFigure = self.fields[uint(int(firstFigureIndex))];
+        // // if we found a figure in the danger direction
+        // if (firstFigureIndex != -1) {
+        //     int8 firstFigure = self.fields[uint(int(firstFigureIndex))];
 
-            // if its an enemy
-            if (firstFigure * movingPlayerColor < 0) {
-                // check if the figure can move to the field of the king
-                int8 kingFigure = Pieces(Piece.BLACK_KING) * movingPlayerColor;
-                if (validateMove(self, uint256(int256(firstFigureIndex)), uint256(int256(kingIndex)), firstFigure, kingFigure, movingPlayerColor)) {
-                    // it can
-                    revert();
-                }
-            }
-        }
+        //     // if its an enemy
+        //     if (firstFigure * movingPlayerColor < 0) {
+        //         // check if the figure can move to the field of the king
+        //         int8 kingFigure = Pieces(Piece.BLACK_KING) * movingPlayerColor;
+        //         if (validateMove(self, uint256(int256(firstFigureIndex)), uint256(int256(kingIndex)), firstFigure, kingFigure, movingPlayerColor)) {
+        //             // it can
+        //             revert();
+        //         }
+        //     }
+        // }
 
         return true;
     }

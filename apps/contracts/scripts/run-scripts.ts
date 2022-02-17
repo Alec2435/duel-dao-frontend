@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
+import { deployChess } from "./deploy-chess";
 
 async function main() {
     // Hardhat always runs the compile task when running scripts with its command
@@ -13,21 +14,56 @@ async function main() {
     // manually to make sure everything is compiled
     // await hre.run('compile');
 
-    const contract = await ethers.getContractAt(
-        "Chess",
-        "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
-    );
+    const [player1, player2] = await ethers.getSigners();
 
-    const gameId =
-        "0xe40c7178353ff54fdd5717d06416909e4be85d76af2bd44f7c56a0c942c59a65";
+    const contractAddress = await deployChess();
 
-    const games = await contract.getGamesOfPlayer(
-        "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-    );
-    console.log(games);
+    const contract = await ethers.getContractAt("Chess", contractAddress);
 
-    const gameData = await contract.getGameData(gameId);
-    console.log(gameData);
+    const player = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+
+    let games =
+        (await contract.getGamesOfPlayer(
+            "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        )) ?? [];
+
+    if (games.length === 0) {
+        const txn = await contract.initGame("Player 1", true, 3600);
+        await txn.wait();
+
+        games = await contract.getGamesOfPlayer(
+            "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        );
+    }
+
+    const gameId = games[0];
+
+    console.log("Got a game", gameId);
+
+    const gameData = contract.getGameData(gameId);
+
+    if (!gameData.player2 || gameData.player2.match(/0x0{40}/)) {
+        const txn2 = await contract
+            .connect(player2)
+            .joinGame(gameId, "Player 2", {
+                from: player2.address,
+            });
+        await txn2.wait();
+        console.log("Joined the game");
+    }
+    // const gameId =
+    //     "0x5f29270bad59ba5f29a04cffb8a0078fd86939a09c268e4f7dcc3c400c71859f";
+
+    // console.log(games);
+
+    // const gameData = await contract.getGameData(gameId);
+
+    // console.log(gameData);
+    console.log("Moving");
+    const abc = await contract.move(gameId, 101, 69);
+    // const abc = await contract.move(gameId, 20, 52);
+    await abc.wait();
+    console.log(abc);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

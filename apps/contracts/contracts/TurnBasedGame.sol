@@ -30,6 +30,7 @@ contract TurnBasedGame {
         uint player2Winnings;
         uint turnTime; // in minutes
         uint timeoutStarted; // timer for timeout
+        uint nextPlayerIndex;
         /*
          * -2 draw offered by nextPlayer
          * -1 draw offered by waiting player

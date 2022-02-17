@@ -15,12 +15,12 @@ import { useWeb3Account } from "../../../src/service/web3-provider";
 const GamePage = (props) => {
     const router = useRouter();
     const gameId = router.query.gameid as string;
-    const [boardState, refreshBoardState] = useChessBoardState(gameId);
+    // const [boardState, refreshBoardState] = useChessBoardState(gameId);
     const [gameData, refreshGameData] = useGameData(gameId);
     const { provider } = useWeb3Account();
     const contract = useContract(provider);
 
-    const positions = stateToPosition(boardState);
+    // const positions = stateToPosition(boardState);
 
     const acceptingJoin =
         contract && gameData && !!gameData.player2.match(/^0x0{40}$/);
@@ -39,7 +39,7 @@ const GamePage = (props) => {
                     Join Game
                 </Button>
             ) : null}
-            <GameDisplay position={positions} />
+            <GameDisplay gameId={gameId} />
         </AppFrame>
     );
 };
