@@ -13,12 +13,43 @@ const PlayerAddress = styled(Chip)({
 export interface PlayerInfoProps {
     alias: string;
     address: string;
+    isActive: boolean;
+    isNext: boolean;
 }
 
-export default function PlayerInfo({ alias, address }: PlayerInfoProps) {
+export default function PlayerInfo({
+    alias,
+    address,
+    isActive,
+    isNext,
+}: PlayerInfoProps) {
     return (
         <div style={{ marginTop: theme.spacing(4) }}>
-            <Typography variant="h5">{alias}</Typography>
+            <Typography variant="h5">
+                {alias}
+                {isActive || isNext ? (
+                    <Chip
+                        label={
+                            isActive
+                                ? isNext
+                                    ? "Your Turn"
+                                    : "You"
+                                : isNext
+                                ? "Their Turn"
+                                : ""
+                        }
+                        size="small"
+                        variant={isActive ? "filled" : "outlined"}
+                        style={{
+                            marginLeft: theme.spacing(1),
+                            ...(isActive
+                                ? { background: theme.palette.text.secondary }
+                                : { color: theme.palette.text.secondary }),
+                        }}
+                    />
+                ) : null}
+            </Typography>
+
             <PlayerAddress size="small" label={address} variant="outlined" />
         </div>
     );

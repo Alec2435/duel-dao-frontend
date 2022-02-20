@@ -5,11 +5,11 @@ import Root from "../Root";
 import AppNav from "./AppNav";
 
 export default function AppFrame({ children }: PropsWithChildren<{}>) {
-    const { address } = useWeb3Account();
+    const { address: activeAddress } = useWeb3Account();
 
     return (
         <Root>
-            <AppNav loggedIn={!!address}></AppNav>
+            <AppNav loggedIn={!!activeAddress}></AppNav>
             <Container maxWidth="lg" style={{ height: "100%", zIndex: 1 }}>
                 {children}
             </Container>

@@ -5,7 +5,7 @@ import { Chessboard, Pieces, Square } from "react-chessboard";
 import {
     squareToIndex,
     stateToPosition,
-    useChessBoardState,
+    useChessController,
     useContract,
     useGameData,
 } from "../../service/contract-interface";
@@ -40,30 +40,35 @@ export interface GameDisplayProps {
 const GameDisplay = ({ gameId }: GameDisplayProps) => {
     const classes = useStyles();
 
-    const { provider } = useWeb3Account();
+    const { provider, address: activeAddress } = useWeb3Account();
     const contract = useContract(provider);
-    const [boardState, refreshBoardState] = useChessBoardState(gameId);
+    const { positions, move } = useChessController(contract, gameId);
     const [gameData, refreshGameData] = useGameData(gameId);
-
-    const positions = stateToPosition(boardState);
 
     const handleMove = (
         source: Square,
         target: Square,
         piece: Pieces,
     ): boolean => {
-        const sourceIndex = squareToIndex(source);
-        const targetIndex = squareToIndex(target);
-        console.log({ sourceIndex, targetIndex });
-        contract
-            .move(gameId, sourceIndex, targetIndex)
-            .then((tsx) => tsx.wait())
+        move(source, target)
+            .catch((e) => console.error(e))
             .then(() => {
-                refreshBoardState();
                 refreshGameData();
             });
+        // const sourceIndex = squareToIndex(source);
+        // const targetIndex = squareToIndex(target);
+        // console.log({ sourceIndex, targetIndex });
+        // contract
+        //     .move(gameId, sourceIndex, targetIndex)
+        //     .then((txn) => txn.wait())
+        //     .then(() => {
+        //         refreshState();
+        //         refreshGameData();
+        //     });
         return true;
     };
+
+    console.log("positions", positions);
 
     return (
         <div className={classes.root}>
@@ -82,10 +87,26 @@ const GameDisplay = ({ gameId }: GameDisplayProps) => {
                                     <PlayerInfo
                                         alias={gameData.player1Alias}
                                         address={gameData.player1}
+                                        isActive={
+                                            gameData.player1.toLowerCase() ===
+                                            activeAddress.toLowerCase()
+                                        }
+                                        isNext={
+                                            gameData.nextPlayerIndex.toNumber() ===
+                                            1
+                                        }
                                     />
                                     <PlayerInfo
                                         alias={gameData.player2Alias}
                                         address={gameData.player2}
+                                        isActive={
+                                            gameData.player2.toLowerCase() ===
+                                            activeAddress.toLowerCase()
+                                        }
+                                        isNext={
+                                            gameData.nextPlayerIndex.toNumber() ===
+                                            2
+                                        }
                                     />
                                 </>
                             )}

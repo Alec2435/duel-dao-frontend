@@ -4,7 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { useWeb3Account } from "./web3-provider";
 import { CurrentPosition, Square } from "react-chessboard";
 
-const contractAddress = "0xE3011A37A904aB90C8881a99BD1F6E21401f1522";
+const contractAddress = "0xb9bEECD1A582768711dE1EE7B0A1d582D9d72a6C";
 const contractABI = abi;
 
 export type RawGameState = number[];
@@ -19,7 +19,7 @@ export interface GameData {
     player1Alias: string; //'Player 1',
     player2Alias: string; //'',
     nextPlayer: string; //'0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-    nextPlayerIndex: number; // 1 | 2,
+    nextPlayerIndex: BigNumber; // 1 | 2,
     winner: string; //'0x0000000000000000000000000000000000000000',
     ended: boolean;
     pot: BigNumber; // { value: "0" },
@@ -136,14 +136,14 @@ export async function getPlayerGames(
 }
 
 export function usePlayerGameIds(): [string[], () => void] {
-    const { provider, address } = useWeb3Account();
+    const { provider, address: activeAddress } = useWeb3Account();
     const contract = useContract(provider);
     const [playerGames, setPlayerGames] = useState([]);
 
     async function refreshBoardState() {
-        if (contract && address) {
+        if (contract && activeAddress) {
             try {
-                const state = await getPlayerGames(contract, address);
+                const state = await getPlayerGames(contract, activeAddress);
                 setPlayerGames(state);
             } catch (e) {
                 console.error(e);
@@ -157,7 +157,7 @@ export function usePlayerGameIds(): [string[], () => void] {
     // Refreshes the data on first run, and if the gameId changes
     useEffect(() => {
         refreshBoardState();
-    }, [contract, address]);
+    }, [contract, activeAddress]);
 
     // TODO: listen to updates
     return [playerGames, refreshBoardState];
@@ -219,45 +219,65 @@ export function useGameData(id: string): [GameData | undefined, () => void] {
     return [data, refreshData];
 }
 
-export async function getChessBoardState(
-    provider: ethers.providers.Web3Provider,
-    gameId: GameID,
-): Promise<number[]> {
-    const signer = provider.getSigner();
-    const chessContract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer,
+export function useChessController(contract: ethers.Contract, gameId: string) {
+    const [boardState, setBoardState] = useState<number[] | undefined>(
+        undefined,
     );
-
-    const gameState = await chessContract.getCurrentGameState(gameId);
-
-    return gameState;
-}
-
-export function useChessBoardState(
-    gameId: GameID,
-): [RawGameState | undefined, () => void] {
-    const { provider, address } = useWeb3Account();
-    const [boardState, setBoardState] = useState(undefined);
+    const [tempState, setTempState] = useState<CurrentPosition | undefined>(
+        undefined,
+    );
+    // const [boardState, setBoardState] = useState(undefined);
 
     async function refreshBoardState() {
-        if (provider && address && gameId) {
-            const state = await getChessBoardState(provider, gameId);
+        if (contract && gameId) {
+            const state: number[] = await contract.getCurrentGameState(gameId);
             setBoardState(state);
-        } else if (boardState !== null) {
+        } else if (boardState !== undefined) {
             setBoardState(undefined);
+        }
+    }
+
+    const contractBoardPosition = useMemo(() => {
+        if (!boardState) return undefined;
+        return stateToPosition(boardState);
+    }, [boardState]);
+
+    async function move(source: Square, target: Square) {
+        // Sets the temporary board state
+        const newBoardPosition = contractBoardPosition
+            ? {
+                  ...contractBoardPosition,
+                  [target]: contractBoardPosition[source],
+              }
+            : undefined;
+        delete newBoardPosition[source];
+        setTempState(newBoardPosition);
+
+        try {
+            // Converts source and target to the contract interface
+            const sourceIndex = squareToIndex(source);
+            const targetIndex = squareToIndex(target);
+
+            const txn = await contract.move(gameId, sourceIndex, targetIndex);
+            await txn.wait();
+            await refreshBoardState();
+        } finally {
+            setTempState(undefined);
         }
     }
 
     // Refreshes the data on first run, and if the gameId changes
     useEffect(() => {
         // If the gameId changed, and we have a boardState, change it to null while we load the new one
-        if (boardState !== null) {
+        if (boardState !== undefined) {
             setBoardState(undefined);
         }
         refreshBoardState();
-    }, [gameId, provider, address]);
+    }, [gameId, contract]);
 
-    return [boardState, refreshBoardState];
+    return {
+        positions: tempState ?? contractBoardPosition,
+        refreshState: refreshBoardState,
+        move,
+    };
 }

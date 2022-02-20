@@ -1,5 +1,14 @@
-import { Button } from "@material-ui/core";
+import {
+    Button,
+    Divider,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
+} from "@material-ui/core";
+import { Check } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
+import { useState } from "react";
 import { useWeb3Account } from "../../service/web3-provider";
 
 const RoundedButton = styled(Button)({
@@ -14,20 +23,53 @@ const RoundedButton = styled(Button)({
 });
 
 export function AuthButton() {
-    const { provider, connectAccount, disconnectAccount, address } =
-        useWeb3Account();
+    const {
+        connectAccount,
+        disconnectAccount,
+        address: activeAddress,
+    } = useWeb3Account();
 
-    const handleClick = () => {
-        if (address) {
-            disconnectAccount();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleDisconnect = () => {
+        disconnectAccount();
+    };
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (activeAddress) {
+            setAnchorEl(event.currentTarget);
         } else {
             connectAccount();
         }
     };
 
     return (
-        <RoundedButton size="small" variant="outlined" onClick={handleClick}>
-            {address ? address : "Connect Wallet"}
-        </RoundedButton>
+        <>
+            <RoundedButton
+                size="small"
+                variant="outlined"
+                onClick={handleClick}
+            >
+                {activeAddress ? activeAddress : "Connect Wallet"}
+            </RoundedButton>
+            <Menu
+                id="auth-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    "aria-labelledby": "auth-menu",
+                }}
+            >
+                <MenuItem onClick={handleDisconnect}>
+                    <ListItemText>Logout</ListItemText>
+                </MenuItem>
+            </Menu>
+        </>
     );
 }
