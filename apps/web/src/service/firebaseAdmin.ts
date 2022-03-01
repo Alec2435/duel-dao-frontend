@@ -1,22 +1,23 @@
-const admin = require("firebase-admin");
+const admin = require('firebase-admin')
 const serviceAccount = {
-    "type": process.env.FIREBASE_ADMIN_TYPE,
-    "project_id": process.env.FIREBASE_ADMIN_PROJECT_ID,
-    "private_key_id": process.env.FIREBASE_ADMIN_PROJECT_ID,
-    "private_key": process.env.FIREBASE_ADMIN_PRIVATE_KEY,
-    "client_email": process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-    "client_id": process.env.FIREBASE_ADMIN_CLIENT_ID,
-    "auth_uri": process.env.FIREBASE_ADMIN_AUTH_URI,
-    "token_uri": process.env.FIREBASE_ADMIN_TOKEN_URI,
-    "auth_provider_x509_cert_url": process.env.FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
-    "client_x509_cert_url": process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL,
+  type: 'service_account',
+  project_id: 'dueldao',
+  private_key_id: '9c0ea89676c5ddfab40008cc83e9f07d87bbda48',
+  private_key: process.env.FIREBASE_ADMIN_PRIVATE_KEY,
+  client_email: 'firebase-adminsdk-o806c@dueldao.iam.gserviceaccount.com',
+  client_id: '102270398932351256962',
+  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+  token_uri: 'https://oauth2.googleapis.com/token',
+  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+  client_x509_cert_url:
+    'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-o806c%40dueldao.iam.gserviceaccount.com'
 }
 
 if (!admin.apps.length) {
-    admin.initializeApp({
-        // @ts-ignore
-        credential: admin.credential.cert(serviceAccount)
-    });
+  admin.initializeApp({
+    // @ts-ignore
+    credential: admin.credential.cert(serviceAccount)
+  })
 }
 
-export default admin;
+export default admin
