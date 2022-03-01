@@ -51,6 +51,7 @@ contract Chess is TurnBasedGame, Auth {
 
             // Game starts with White, so here player 1
             games[gameId].nextPlayer = games[gameId].player1;
+            games[gameId].nextPlayerIndex = 1;
         }
 
         // Sent notification events
@@ -72,6 +73,7 @@ contract Chess is TurnBasedGame, Auth {
             gameStates[gameId].playerWhite = msg.sender;
             // Game starts with White, so here player2
             games[gameId].nextPlayer = games[gameId].player2;
+            games[gameId].nextPlayerIndex = 2;
         }
 
         emit GameJoined(gameId, games[gameId].player1, games[gameId].player1Alias, games[gameId].player2, player2Alias, gameStates[gameId].playerWhite, games[gameId].pot);
@@ -111,7 +113,8 @@ contract Chess is TurnBasedGame, Auth {
 
         // apply state
         gameStates[gameId].setState(state, playerColor);
-        games[gameId].nextPlayer =  msg.sender;
+        games[gameId].nextPlayer = msg.sender;
+        games[gameId].nextPlayerIndex = msg.sender == games[gameId].player1 ? 1 : 2;
 
         // apply and verify move
         move(gameId, fromIndex, toIndex);
@@ -127,7 +130,7 @@ contract Chess is TurnBasedGame, Auth {
             gameStates[gameId].move(fromIndex, toIndex, msg.sender != gameStates[gameId].playerWhite);
         } else {
             if (games[gameId].nextPlayer != msg.sender) {
-                revert();
+                revert("Wrong player");
             }
             if(games[gameId].timeoutState != 0) {
                 games[gameId].timeoutState = 0;
@@ -139,8 +142,10 @@ contract Chess is TurnBasedGame, Auth {
             // Set nextPlayer
             if (msg.sender == games[gameId].player1) {
                 games[gameId].nextPlayer = games[gameId].player2;
+                games[gameId].nextPlayerIndex = 2;
             } else {
                 games[gameId].nextPlayer = games[gameId].player1;
+                games[gameId].nextPlayerIndex = 1;
             }
         }
 
@@ -154,6 +159,7 @@ contract Chess is TurnBasedGame, Auth {
         int8 playerColor = nextPlayer == gameStates[gameId].playerWhite ? int8(1) : int8(-1);
         gameStates[gameId].setState(state, playerColor);
         games[gameId].nextPlayer = nextPlayer;
+        games[gameId].nextPlayerIndex = games[gameId].player1 == nextPlayer ? 1 : 2;
         emit GameStateChanged(gameId, gameStates[gameId].fields);
     }
 

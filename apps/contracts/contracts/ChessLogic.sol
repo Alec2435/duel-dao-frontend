@@ -65,16 +65,16 @@ library ChessLogic {
     bytes constant knightMoves = '\x1f\x21\x2e\x32\x4e\x52\x5f\x61';
     //                             [-33,-31,-18,-14,14, 18, 31, 33] shifted by +64
 
-    function Flags(Flag i) internal returns (uint) {
+    function Flags(Flag i) internal pure returns (uint) {
        return uint(uint8(c_Flags[uint(i)]));
     }
-    function Pieces(Piece i) internal returns (int8) {
+    function Pieces(Piece i) internal pure returns (int8) {
         return int8(-6 + int(uint(i)));
     }
-    function Directions(Direction i) internal returns (int8) {
+    function Directions(Direction i) internal pure returns (int8) {
         return -64 + int8(uint8(c_Directions[uint(i)]));
     }
-    function Players(Player p) internal returns (int8) {
+    function Players(Player p) internal pure returns (int8) {
         if (p == Player.WHITE) {
             return 1;
         }
@@ -93,7 +93,7 @@ library ChessLogic {
      * Convenience function to set a flag
      * Usage: getFlag(state, Flag.BLACK_KING_POS);
      */
-    function getFlag(State storage self, Flag flag) internal returns (int8) {
+    function getFlag(State storage self, Flag flag) internal view returns (int8) {
         return self.fields[Flags(flag)];
     }
 
@@ -135,8 +135,8 @@ library ChessLogic {
         // For all pieces except knight, check if way is free
         if (abs(fromFigure) != uint(int(Pieces(Piece.WHITE_KNIGHT)))) {
             // In case of king, it will check that he is not in check on any of the fields he moves over
-            bool checkForCheck = abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)));
-            checkWayFree(self, fromIndex, toIndex, currentPlayerColor, checkForCheck);
+            bool shouldCheckForCheck = abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)));
+            checkWayFree(self, fromIndex, toIndex, currentPlayerColor, shouldCheckForCheck);
 
             // Check field between rook and king in case of castling
             if (fromFigure == Pieces(Piece.BLACK_KING) && toIndex == 2 && self.fields[1] != 0 ||
@@ -164,7 +164,7 @@ library ChessLogic {
         setFlag(self, Flag.CURRENT_PLAYER, nextPlayerColor);
     }
 
-    function sanityCheck(uint256 fromIndex, uint256 toIndex, int8 fromFigure, int8 toFigure, int8 currentPlayerColor) internal {
+    function sanityCheck(uint256 fromIndex, uint256 toIndex, int8 fromFigure, int8 toFigure, int8 currentPlayerColor) internal pure {
 
         // check that move is within the field
         if (toIndex & 0x88 != 0 || fromIndex & 0x88 != 0) {
@@ -396,7 +396,7 @@ library ChessLogic {
         return false; // king is not checked
     }
 
-    function getDirection(uint256 fromIndex, uint256 toIndex) internal returns (int8) {
+    function getDirection(uint256 fromIndex, uint256 toIndex) internal pure returns (int8) {
         // check if the figure is moved up or left of its origin
         bool isAboveLeft = fromIndex > toIndex;
 
@@ -554,49 +554,49 @@ library ChessLogic {
     // checks whether movingPlayerColor's king gets checked by move
     function checkLegality(State storage self, uint256 fromIndex, uint256 toIndex, int8 fromFigure, int8 toFigure, int8 movingPlayerColor) internal returns (bool){
         // Piece that was moved was the king
-        if (abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)))) {
-            if (checkForCheck(self, uint(toIndex), movingPlayerColor)) {
-                revert();
-            }
-            // Else we can skip the rest of the checks
-            return true;
-        }
+        // if (abs(fromFigure) == uint(int(Pieces(Piece.WHITE_KING)))) {
+        //     if (checkForCheck(self, uint(toIndex), movingPlayerColor)) {
+        //         revert();
+        //     }
+        //     // Else we can skip the rest of the checks
+        //     return true;
+        // }
 
-        int8 kingIndex = getOwnKing(self, movingPlayerColor);
+        // int8 kingIndex = getOwnKing(self, movingPlayerColor);
 
-        // Moved other piece, but own king is still in check
-        if (checkForCheck(self, uint(int(kingIndex)), movingPlayerColor)) {
-            revert();
-        }
+        // // Moved other piece, but own king is still in check
+        // if (checkForCheck(self, uint(int(kingIndex)), movingPlayerColor)) {
+        //     revert();
+        // }
 
 
-        // through move of fromFigure away from fromIndex,
-        // king may now be in danger from that direction
-        int8 kingDangerDirection = getDirection(uint256(int256(kingIndex)), fromIndex);
-        // get the first Figure in this direction. Threat of Knight does not change through move of fromFigure.
-        // All other figures can not jump over other figures. So only the first figure matters.
-        int8 firstFigureIndex = getFirstFigure(self, kingDangerDirection,kingIndex);
+        // // through move of fromFigure away from fromIndex,
+        // // king may now be in danger from that direction
+        // int8 kingDangerDirection = getDirection(uint256(int256(kingIndex)), fromIndex);
+        // // get the first Figure in this direction. Threat of Knight does not change through move of fromFigure.
+        // // All other figures can not jump over other figures. So only the first figure matters.
+        // int8 firstFigureIndex = getFirstFigure(self, kingDangerDirection,kingIndex);
 
-        // if we found a figure in the danger direction
-        if (firstFigureIndex != -1) {
-            int8 firstFigure = self.fields[uint(int(firstFigureIndex))];
+        // // if we found a figure in the danger direction
+        // if (firstFigureIndex != -1) {
+        //     int8 firstFigure = self.fields[uint(int(firstFigureIndex))];
 
-            // if its an enemy
-            if (firstFigure * movingPlayerColor < 0) {
-                // check if the figure can move to the field of the king
-                int8 kingFigure = Pieces(Piece.BLACK_KING) * movingPlayerColor;
-                if (validateMove(self, uint256(int256(firstFigureIndex)), uint256(int256(kingIndex)), firstFigure, kingFigure, movingPlayerColor)) {
-                    // it can
-                    revert();
-                }
-            }
-        }
+        //     // if its an enemy
+        //     if (firstFigure * movingPlayerColor < 0) {
+        //         // check if the figure can move to the field of the king
+        //         int8 kingFigure = Pieces(Piece.BLACK_KING) * movingPlayerColor;
+        //         if (validateMove(self, uint256(int256(firstFigureIndex)), uint256(int256(kingIndex)), firstFigure, kingFigure, movingPlayerColor)) {
+        //             // it can
+        //             revert();
+        //         }
+        //     }
+        // }
 
         return true;
     }
 
     // gets the first figure in direction from start, not including start
-    function getFirstFigure(State storage self, int8 direction, int8 start) public returns (int8){
+    function getFirstFigure(State storage self, int8 direction, int8 start) public view returns (int8){
         int currentIndex = start + direction;
 
         // as long as we do not reach the end of the board walk in direction
@@ -615,23 +615,23 @@ library ChessLogic {
     /*------------------------HELPER FUNCTIONS------------------------*/
 
     // This returns the absolute value of an integer
-    function abs(int256 value) public returns (uint256){
+    function abs(int256 value) public pure returns (uint256){
         if (value>=0) return uint256(value);
         else return uint256(-1*value);
     }
 
-    function is_diagonal(int8 direction) internal returns (bool){
+    function is_diagonal(int8 direction) internal pure returns (bool){
       return !(abs(direction) == 16 || abs(direction) == 1);
     }
 
-    function getOwnKing(State storage self, int8 movingPlayerColor) public returns (int8){
+    function getOwnKing(State storage self, int8 movingPlayerColor) public view returns (int8){
         if (movingPlayerColor == Players(Player.WHITE))
             return getFlag(self, Flag.WHITE_KING_POS);
         else
             return getFlag(self, Flag.BLACK_KING_POS);
     }
 
-    function boolToInt(bool value) public returns (int) {
+    function boolToInt(bool value) public pure returns (int) {
         if (value) {
             return 1;
         } else {

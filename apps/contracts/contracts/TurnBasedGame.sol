@@ -30,6 +30,7 @@ contract TurnBasedGame {
         uint player2Winnings;
         uint turnTime; // in minutes
         uint timeoutStarted; // timer for timeout
+        uint nextPlayerIndex;
         /*
          * -2 draw offered by nextPlayer
          * -1 draw offered by waiting player
@@ -82,6 +83,10 @@ contract TurnBasedGame {
             currentGame = openGameIds[currentGame];
         }
         return data;
+    }
+
+    function getGameData(bytes32 gameId) public view returns (Game memory) {
+        return games[gameId];
     }
 
     // closes a game that is not currently running
@@ -247,8 +252,10 @@ contract TurnBasedGame {
         games[gameId].player2Alias = player2Alias;
 
         // Add game to gamesOfPlayers
-        gamesOfPlayers[msg.sender][gameId] = gamesOfPlayersHeads[msg.sender];
-        gamesOfPlayersHeads[msg.sender] = gameId;
+        if (games[gameId].player1 != msg.sender) {
+            gamesOfPlayers[msg.sender][gameId] = gamesOfPlayersHeads[msg.sender];
+            gamesOfPlayersHeads[msg.sender] = gameId;
+        }
 
         // Remove from openGameIds
         if (head == gameId) {
