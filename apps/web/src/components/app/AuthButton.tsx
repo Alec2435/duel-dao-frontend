@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Check } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useWeb3Account } from "../../service/web3-provider";
 
 const RoundedButton = styled(Button)({
