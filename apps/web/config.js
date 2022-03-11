@@ -1,7 +1,7 @@
 module.exports = {
-    PAGE_TITLE: "Duel Dao",
-    COMPANY_NAME: "Duel Dao",
-    DISPLAY_COMPANY_NAME: "Duel Dao",
+    PAGE_TITLE: "Duel DAO",
+    COMPANY_NAME: "Duel DAO",
+    DISPLAY_COMPANY_NAME: "Duel DAO",
     COMPANY_URL: "https://dueldao.xyz",
     COMPANY_LOGO_URL: "/favicon.png",
     TAGLINE: "DAO vs DAO gaming on-chain",

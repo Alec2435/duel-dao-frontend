@@ -10,7 +10,6 @@ export default function Home() {
     <div className={styles.container} style={{ backgroundColor: config.PALETTE.BACKGROUND_SECONDARY }}>
       <Head>
         <title>{config.PAGE_TITLE}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
     </div>
