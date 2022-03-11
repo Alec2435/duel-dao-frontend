@@ -51,21 +51,18 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:url" content="https://dueldao.xyz" />
 
         {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Duel DAO" />
         <meta name="twitter:site" content="@dueldao" />
-        <meta
-          name="twitter:title"
-          content="Duel DAO - DAO vs DAO gaming on-chain"
-        />
         <meta
           name="twitter:description"
           content="Duel DAO is an on-chain implementation of chess that allows two DAOs to play chess against one another."
         />
+        <meta name="twitter:image" content="https://dueldao.xyz/twitter.png" />
         <meta
           name="twitter:image:alt"
           content='Illustration Yami Yugi from Yu-Gi-Oh! wielding a card, except that card is replaced with a chess piece. Text beside it that reads: "Duel DAO"'
         />
-        <meta name="twitter:image" content="https://dueldao.xyz/twitter.png" />
+        <meta name="twitter:card" content="summary_large_image" />
 
         {/*  generics */}
         <link rel="icon" href="/favicon.png" type="image/png" />
