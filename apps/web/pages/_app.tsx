@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps }) {
           name="twitter:image:alt"
           content='Illustration Yami Yugi from Yu-Gi-Oh! wielding a card, except that card is replaced with a chess piece. Text beside it that reads: "Duel DAO"'
         />
-        <meta name="twitter:image" content="/twitter.png" />
+        <meta name="twitter:image" content="https://dueldao.xyz/twitter.png" />
 
         {/*  generics */}
         <link rel="icon" href="/favicon.png" type="image/png" />
