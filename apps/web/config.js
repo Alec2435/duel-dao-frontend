@@ -6,7 +6,8 @@ module.exports = {
     COMPANY_LOGO_URL: "/favicon.png",
     TAGLINE: "DAO vs DAO gaming on-chain",
     SUPPORT_EMAIL: "nikita.jerschow@gmail.com",
-    TWITTER_URL: 'https://twitter.com/nikita_jerschow',
+    TWITTER_URL: '@dueldao',
+    TWITTER_IMAGE: '/twitter.png',
     META: {
         TITLE: "DAO vs DAO gaming on-chain",
         DESCRIPTION: "",

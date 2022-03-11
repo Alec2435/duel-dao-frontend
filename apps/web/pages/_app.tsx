@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
                     name="twitter:description"
                     content={config.META.DESCRIPTION}
                 />
-                <meta name="twitter:image" content={config.META.IMAGE} />
+                <meta name="twitter:image" content={config.TWITTER_IMAGE} />
                 <meta property="og:image" content={config.META.IMAGE} />
                 <meta property="og:title" content={config.META.TITLE} />
                 <meta
