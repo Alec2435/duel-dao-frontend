@@ -25,8 +25,8 @@ contract Chess is TurnBasedGame, Auth {
         return eloScores.getScore(player);
     }
 
-    event GameInitialized(bytes32 indexed gameId, address indexed player1, string player1Alias, address playerWhite, uint turnTime, uint pot);
-    event GameJoined(bytes32 indexed gameId, address indexed player1, string player1Alias, address indexed player2, string player2Alias, address playerWhite, uint pot);
+    event GameInitialized(bytes32 indexed gameId, address indexed player1, string player1Alias, address playerWhite, uint turnTime);
+    event GameJoined(bytes32 indexed gameId, address indexed player1, string player1Alias, address indexed player2, string player2Alias, address playerWhite);
     event GameStateChanged(bytes32 indexed gameId, int8[128] state);
     event Move(bytes32 indexed gameId, address indexed player, uint256 fromIndex, uint256 toIndex);
     event EloScoreUpdate(address indexed player, uint score);
@@ -39,7 +39,7 @@ contract Chess is TurnBasedGame, Auth {
      * string player1Alias: Alias of the player creating the game
      * bool playAsWhite: Pass true or false depending on if the creator will play as white
      */
-    function initGame(string memory player1Alias, bool playAsWhite, uint turnTime) public payable override returns (bytes32) {
+    function initGame(string memory player1Alias, bool playAsWhite, uint turnTime) public override returns (bytes32) {
         bytes32 gameId = super.initGame(player1Alias, playAsWhite, turnTime);
 
         // Setup game state
@@ -55,7 +55,7 @@ contract Chess is TurnBasedGame, Auth {
         }
 
         // Sent notification events
-        emit GameInitialized(gameId, games[gameId].player1, player1Alias, gameStates[gameId].playerWhite, games[gameId].turnTime, games[gameId].pot);
+        emit GameInitialized(gameId, games[gameId].player1, player1Alias, gameStates[gameId].playerWhite, games[gameId].turnTime);
         emit GameStateChanged(gameId, gameStates[gameId].fields);
         return gameId;
     }
@@ -65,7 +65,7 @@ contract Chess is TurnBasedGame, Auth {
      * bytes32 gameId: ID of the game to join
      * string player2Alias: Alias of the player that is joining
      */
-    function joinGame(bytes32 gameId, string memory player2Alias) public payable override {
+    function joinGame(bytes32 gameId, string memory player2Alias) public override {
         super.joinGame(gameId, player2Alias);
 
         // If the other player isn't white, player2 will play as white
@@ -76,7 +76,7 @@ contract Chess is TurnBasedGame, Auth {
             games[gameId].nextPlayerIndex = 2;
         }
 
-        emit GameJoined(gameId, games[gameId].player1, games[gameId].player1Alias, games[gameId].player2, player2Alias, gameStates[gameId].playerWhite, games[gameId].pot);
+        emit GameJoined(gameId, games[gameId].player1, games[gameId].player1Alias, games[gameId].player2, player2Alias, gameStates[gameId].playerWhite);
     }
 
     /**
@@ -220,13 +220,6 @@ contract Chess is TurnBasedGame, Auth {
 
         game.ended = true;
         game.winner = msg.sender;
-        if(msg.sender == game.player1) {
-            games[gameId].player1Winnings = games[gameId].pot;
-            games[gameId].pot = 0;
-        } else {
-            games[gameId].player2Winnings = games[gameId].pot;
-            games[gameId].pot = 0;
-        }
 
         // Update ELO scores
         eloScores.recordResult(game.player1, game.player2, game.winner);

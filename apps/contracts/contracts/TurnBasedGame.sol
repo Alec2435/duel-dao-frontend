@@ -25,9 +25,6 @@ contract TurnBasedGame {
         address nextPlayer;
         address winner;
         bool ended;
-        uint pot; // What this game is worth: ether paid into the game
-        uint player1Winnings;
-        uint player2Winnings;
         uint turnTime; // in minutes
         uint timeoutStarted; // timer for timeout
         uint nextPlayerIndex;
@@ -115,8 +112,6 @@ contract TurnBasedGame {
                     }
                 }
             }
-            games[gameId].player1Winnings = games[gameId].pot;
-            games[gameId].pot = 0;
         }
 
         // Remove from gamesOfPlayers
@@ -150,13 +145,9 @@ contract TurnBasedGame {
         if (games[gameId].player1 == msg.sender) {
             // Player 1 surrendered, player 2 won
             games[gameId].winner = games[gameId].player2;
-            games[gameId].player2Winnings = games[gameId].pot;
-            games[gameId].pot = 0;
         } else if(games[gameId].player2 == msg.sender) {
             // Player 2 surrendered, player 1 won
             games[gameId].winner = games[gameId].player1;
-            games[gameId].player1Winnings = games[gameId].pot;
-            games[gameId].pot = 0;
         } else {
             // Sender is not a participant of this game
             revert();
@@ -164,31 +155,6 @@ contract TurnBasedGame {
 
         games[gameId].ended = true;
         emit GameEnded(gameId);
-    }
-
-    /**
-     * Allows the winner of a game to withdraw their ether
-     * bytes32 gameId: ID of the game they have won
-     */
-    function withdraw(bytes32 gameId) public {
-        uint payout = 0;
-        if(games[gameId].player1 == msg.sender && games[gameId].player1Winnings > 0) {
-            payout = games[gameId].player1Winnings;
-            games[gameId].player1Winnings = 0;
-            if (!payable(msg.sender).send(payout)) {
-                revert();
-            }
-        }
-        else if(games[gameId].player2 == msg.sender && games[gameId].player2Winnings > 0) {
-            payout = games[gameId].player2Winnings;
-            games[gameId].player2Winnings = 0;
-            if (!payable(msg.sender).send(payout)) {
-                revert();
-            }
-        }
-        else {
-            revert();
-        }
     }
 
     function isGameEnded(bytes32 gameId) public view returns (bool) {
@@ -200,7 +166,7 @@ contract TurnBasedGame {
         _;
     }
 
-    function initGame(string memory player1Alias, bool playAsWhite, uint turnTime) public virtual payable returns (bytes32) {
+    function initGame(string memory player1Alias, bool playAsWhite, uint turnTime) public virtual returns (bytes32) {
         if (turnTime < 5)
             revert();
 
@@ -214,11 +180,6 @@ contract TurnBasedGame {
         // Initialize participants
         games[gameId].player1 = msg.sender;
         games[gameId].player1Alias = player1Alias;
-        games[gameId].player1Winnings = 0;
-        games[gameId].player2Winnings = 0;
-
-        // Initialize game value
-        games[gameId].pot = msg.value * 2;
 
         // Add game to gamesOfPlayers
         gamesOfPlayers[msg.sender][gameId] = gamesOfPlayersHeads[msg.sender];
@@ -236,17 +197,11 @@ contract TurnBasedGame {
      * bytes32 gameId: ID of the game to join
      * string player2Alias: Alias of the player that is joining
      */
-    function joinGame(bytes32 gameId, string memory player2Alias) public virtual payable {
+    function joinGame(bytes32 gameId, string memory player2Alias) public virtual {
         // Check that this game does not have a second player yet
         if (games[gameId].player2 != address(0)) {
             revert();
         }
-
-        // revert() if the second player did not match the bet.
-        if (msg.value != games[gameId].pot) {
-            revert();
-        }
-        games[gameId].pot += msg.value;
 
         games[gameId].player2 = msg.sender;
         games[gameId].player2Alias = player2Alias;
@@ -352,9 +307,6 @@ contract TurnBasedGame {
         if (msg.sender == game.nextPlayer) {
             if (game.timeoutState == -2) { // draw
                 game.ended = true;
-                games[gameId].player1Winnings = games[gameId].pot / 2;
-                games[gameId].player2Winnings = games[gameId].pot / 2;
-                games[gameId].pot = 0;
                 emit GameEnded(gameId);
             } else {
                 revert();
@@ -362,20 +314,10 @@ contract TurnBasedGame {
         } else {
             if (game.timeoutState == -1) { // draw
                 game.ended = true;
-                games[gameId].player1Winnings = games[gameId].pot / 2;
-                games[gameId].player2Winnings = games[gameId].pot / 2;
-                games[gameId].pot = 0;
                 emit GameEnded(gameId);
             } else if (game.timeoutState == 1){ // win
                 game.ended = true;
                 game.winner = msg.sender;
-                if(msg.sender == game.player1) {
-                    games[gameId].player1Winnings = games[gameId].pot;
-                    games[gameId].pot = 0;
-                } else {
-                    games[gameId].player2Winnings = games[gameId].pot;
-                    games[gameId].pot = 0;
-                }
                 emit GameEnded(gameId);
             } else {
                 revert();
@@ -392,9 +334,6 @@ contract TurnBasedGame {
         if (msg.sender != game.nextPlayer) {
             if (game.timeoutState == -2) { // draw
                 game.ended = true;
-                games[gameId].player1Winnings = games[gameId].pot / 2;
-                games[gameId].player2Winnings = games[gameId].pot / 2;
-                games[gameId].pot = 0;
                 emit GameEnded(gameId);
             } else {
                 revert();
@@ -402,20 +341,13 @@ contract TurnBasedGame {
         } else {
             if (game.timeoutState == -1) { // draw
                 game.ended = true;
-                games[gameId].player1Winnings = games[gameId].pot / 2;
-                games[gameId].player2Winnings = games[gameId].pot / 2;
-                games[gameId].pot = 0;
                 emit GameEnded(gameId);
             } else if (game.timeoutState == 1 || game.timeoutState == 2) { // win
                 game.ended = true;
                 if(msg.sender == game.player1) {
                     game.winner = game.player2;
-                    games[gameId].player2Winnings = games[gameId].pot;
-                    games[gameId].pot = 0;
                 } else {
                     game.winner = game.player1;
-                    games[gameId].player1Winnings = games[gameId].pot;
-                    games[gameId].pot = 0;
                 }
                 emit GameEnded(gameId);
             } else {

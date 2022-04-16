@@ -4,7 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { useWeb3Account } from "./web3-provider";
 import { CurrentPosition, Square } from "react-chessboard";
 
-const contractAddress = "0xb9bEECD1A582768711dE1EE7B0A1d582D9d72a6C";
+const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
 const contractABI = abi;
 
 export type RawGameState = number[];
@@ -22,9 +22,9 @@ export interface GameData {
     nextPlayerIndex: BigNumber; // 1 | 2,
     winner: string; //'0x0000000000000000000000000000000000000000',
     ended: boolean;
-    pot: BigNumber; // { value: "0" },
-    player1Winnings: BigNumber; // { value: "0" },
-    player2Winnings: BigNumber; // { value: "0" },
+    // pot: BigNumber; // { value: "0" },
+    // player1Winnings: BigNumber; // { value: "0" },
+    // player2Winnings: BigNumber; // { value: "0" },
     turnTime: BigNumber; // { value: "3600" },
     timeoutStarted: BigNumber; // { value: "0" },
     timeoutState: 0;
@@ -34,8 +34,7 @@ export async function initGame(
     contract: ethers.Contract,
     player1Alias: string,
 ) {
-    const options = { value: ethers.utils.parseEther("0.0") };
-    const initTxn = await contract.initGame(player1Alias, true, 3600, options);
+    const initTxn = await contract.initGame(player1Alias, true, 3600);
     await initTxn.wait();
 }
 
